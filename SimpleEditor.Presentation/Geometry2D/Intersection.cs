@@ -6,6 +6,7 @@ namespace SimpleEditor.Presentation.Geometry2D
 {
     public class Intersection
     {
+        #region Intersection Methods
         public static IntersectionResult LineLine(GLine l1, GLine l2)
         {
             var result = new IntersectionResult();
@@ -205,7 +206,8 @@ namespace SimpleEditor.Presentation.Geometry2D
             return result;
         }
 
-        public  static void Intersect(GShape s1,GShape s2)
+        #endregion
+        public static void Intersect(GShape s1,GShape s2)
         {
 
         }

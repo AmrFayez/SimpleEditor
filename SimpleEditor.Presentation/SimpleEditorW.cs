@@ -152,11 +152,11 @@ namespace SimpleEditor.Presentation
                         else if (clickCount == 2)
                         {
                             //check end line position to exit or continue drawing.
-                            var snap = 5;
+                            
                             var prevLine = tempPolyLine.Lines.LastOrDefault();
                             tempPolyLine.Lines.Add(new GLine(prevLine.EndPoint, p2));
 
-                            if (p2.Distance(tempPolyLine.Lines.FirstOrDefault().StartPoint) < snap)
+                            if (p2.Distance(tempPolyLine.Lines.FirstOrDefault().StartPoint) < Setup.Snap)
                             {
                                 ge.AddShape(tempShape);
                                 clickCount = 0;
@@ -352,21 +352,21 @@ namespace SimpleEditor.Presentation
         }
         private void btn_Remove_Click(object sender, EventArgs e)
         {
-            var start = new PointF(100, 100);
-            var end = new PointF(200, 60);
-            var l = new GLine(new PointF(100, 100), new PointF(200, 60));
-            l.Draw(g);
-            GeometryEngine.DrawPoint(g, new PointF(130, 20));
-            var dx = 200 - 100;
-            var dy = 100 - 20;
+            //var start = new PointF(100, 100);
+            //var end = new PointF(200, 60);
+            //var l = new GLine(new PointF(100, 100), new PointF(200, 60));
+            //l.Draw(g);
+            //GeometryEngine.DrawPoint(g, new PointF(130, 20));
+            //var dx = 200 - 100;
+            //var dy = 100 - 20;
 
-            //var r= new GRectangle(new PointF( 75, 75),new PointF(125,125));
-            //var c = new GCircle(new PointF(100, 100), 25);
-            //c.Draw(g);
-            // r.Draw(g);
-            var startAngle = Math.Acos((start.Normalize()).Dot(new PointF(1, 0).Normalize())).ToDegrees();
-            var endAngle = Math.Acos((end.Normalize()).Dot(new PointF(1, 0).Normalize())).ToDegrees();
-            g.DrawArc(new Pen(Brushes.Red, 3), new Rectangle(100, 100 - dy, dx, dy * 2), -180, 140);
+            ////var r= new GRectangle(new PointF( 75, 75),new PointF(125,125));
+            ////var c = new GCircle(new PointF(100, 100), 25);
+            ////c.Draw(g);
+            //// r.Draw(g);
+            //var startAngle = Math.Acos((start.Normalize()).Dot(new PointF(1, 0).Normalize())).ToDegrees();
+            //var endAngle = Math.Acos((end.Normalize()).Dot(new PointF(1, 0).Normalize())).ToDegrees();
+            //g.DrawArc(new Pen(Brushes.Red, 3), new Rectangle(100, 100 - dy, dx, dy * 2), -180, 140);
         }
 
         private void btn_Clear_Click(object sender, EventArgs e)

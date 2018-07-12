@@ -19,9 +19,11 @@ namespace SimpleEditor.Presentation.Geometry2D
 
         //Line Configuration
         public static float Tolerance { get; set; }
+        public static float Snap { get; set; }
         public static void Configure()
         {
             // 
+            Snap = 5;
             Tolerance = 0.0001f;
             //default pen
             PenBrush = Brushes.Black;
