@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleEditor.Presentation", "SimpleEditor.Presentation\SimpleEditor.Presentation.csproj", "{848B7AA9-314A-4341-82F2-FE4802199DEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleEditor.Presentation.Tests", "SimpleEditor.Presentation.Tests\SimpleEditor.Presentation.Tests.csproj", "{B27AFACB-5ACC-4A2F-83BC-8D3A6730B5CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{848B7AA9-314A-4341-82F2-FE4802199DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{848B7AA9-314A-4341-82F2-FE4802199DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{848B7AA9-314A-4341-82F2-FE4802199DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{848B7AA9-314A-4341-82F2-FE4802199DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B27AFACB-5ACC-4A2F-83BC-8D3A6730B5CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B27AFACB-5ACC-4A2F-83BC-8D3A6730B5CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B27AFACB-5ACC-4A2F-83BC-8D3A6730B5CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B27AFACB-5ACC-4A2F-83BC-8D3A6730B5CD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CECBCBA2-3050-4AB9-AE38-99C4BBB9EC98}
+	EndGlobalSection
+EndGlobal
