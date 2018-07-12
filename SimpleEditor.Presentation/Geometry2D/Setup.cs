@@ -46,6 +46,13 @@ namespace SimpleEditor.Presentation.Geometry2D
             GCircle.CircleWidth = 2;
             GCircle.CenterPointFill = Brushes.LightGreen;
             GCircle.CenterPointStroke = Brushes.LightGreen;
+
+            //Arc Configuration
+            GArc.ArcFill = Brushes.Transparent;
+            GArc.ArcStroke = Brushes.Black;
+            GArc.ArcWidth = 2;
+            GArc.CenterPointFill = Brushes.LightGreen;
+            GArc.CenterPointStroke = Brushes.LightGreen;
         }
     }
 }

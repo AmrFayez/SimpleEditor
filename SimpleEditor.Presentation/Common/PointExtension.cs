@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SimpleEditor.Presentation.Common
 {
-  public static  class PointExtension
+    public static class PointExtension
     {
         public static PointF Sub(this PointF p1, PointF p2)
         {
@@ -25,18 +25,29 @@ namespace SimpleEditor.Presentation.Common
         {
             return p1.X * P2.X + p1.Y * P2.Y;
         }
-        public static double Distance(this PointF p,PointF other)
+        public static float Distance(this PointF p, PointF other)
         {
 
-            return Math.Sqrt(
+            return (float)Math.Sqrt(
                   Math.Pow(p.X - other.X, 2) +
                   Math.Pow(p.Y - other.Y, 2)
                   );
 
         }
-        public static double Cross(this PointF p,PointF other)
+        public static float Cross(this PointF p, PointF other)
         {
             return (p.X * other.Y) - (p.Y * other.X);
+        }
+        public static float AngleTo(this PointF p, PointF other)
+        {
+            return (float)(Math.Abs(
+                    Math.Atan2(
+                        (p.X * other.Y) - (other.X * p.Y),
+                        (p.X * other.X) + (p.Y * other.Y))) *
+                        180 / Math.PI);
+
+
+
         }
     }
 }

@@ -8,46 +8,29 @@ using System.Windows.Forms;
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
-    public class GCircle : GShape, IIntersect
+    public class GCircle : GShape  
     {
+        #region Static Properties
+
+        
         public static Brush CircleFill { get; set; }
         public static Brush CircleStroke { get; set; }
         public static float CircleWidth { get; set; }
         public static Brush CenterPointFill { get; set; }
         public static Brush CenterPointStroke { get; set; }
+        #endregion
+
+        #region Properties
+
+
         public PointF Center { get; set; }
         public float Radius { get; set; }
+        #endregion
 
 
-        public override void IntersectWith(GShape gShape)
-        {
-            if (gShape is GCircle)
-            {
-                var res = GeometryEngine.CircleCircle(this, (GCircle)gShape);
+        #region Constructors
 
-                if (res.IntersectionPoints.Count == 0) return;
-
-                IntersectionResults.Add(res);
-            }
-            else if (gShape is GLine)
-            {
-                var res = GeometryEngine.CircleLine(this, (GLine)gShape);
-
-                if (res.IntersectionPoints.Count == 0) return;
-
-                IntersectionResults.Add(res);
-            }
-            else if (gShape is GRectangle)
-            {
-                var res = GeometryEngine.CircleRectangle(this, (GRectangle)gShape);
-
-                if (res.IntersectionPoints.Count == 0) return;
-
-                IntersectionResults.Add(res);
-
-            }
-        }
-
+        
         public GCircle(PointF center, float radius)
         {
             Center = center;
@@ -56,7 +39,9 @@ namespace SimpleEditor.Presentation.Geometry2D
             Fill = CircleFill;
             Width = CircleWidth;
         }
+        #endregion
 
+        #region Methods
         public override void Draw(Graphics g)
         {
             //drawing center
@@ -71,7 +56,35 @@ namespace SimpleEditor.Presentation.Geometry2D
             ResetPen();
             DrawIntersectedPoints(g);
         }
+        public override void IntersectWith(GShape gShape)
+        {
+            if (gShape is GCircle)
+            {
+                var res = Intersection.CircleCircle(this, (GCircle)gShape);
 
+                if (res.IntersectionPoints.Count == 0) return;
+
+                IntersectionResults.Add(res);
+            }
+            else if (gShape is GLine)
+            {
+                var res = Intersection.CircleLine(this, (GLine)gShape);
+
+                if (res.IntersectionPoints.Count == 0) return;
+
+                IntersectionResults.Add(res);
+            }
+            else if (gShape is GRectangle)
+            {
+                var res = Intersection.CircleRectangle(this, (GRectangle)gShape);
+
+                if (res.IntersectionPoints.Count == 0) return;
+
+                IntersectionResults.Add(res);
+
+            }
+        }
+        #endregion
 
     }
 }

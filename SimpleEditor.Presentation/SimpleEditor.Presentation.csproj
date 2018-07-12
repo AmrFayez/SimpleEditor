@@ -66,13 +66,13 @@
     </Compile>
     <Compile Include="Geometry2D\DrawCommands.cs" />
     <Compile Include="Geometry2D\GCircle.cs" />
-    <Compile Include="Geometry2D\GCurve.cs" />
+    <Compile Include="Geometry2D\GArc.cs" />
     <Compile Include="Geometry2D\GeometryEngine.cs" />
     <Compile Include="Geometry2D\GLine.cs" />
     <Compile Include="Geometry2D\GPolyLine.cs" />
     <Compile Include="Geometry2D\GRectangle.cs" />
     <Compile Include="Geometry2D\GShape.cs" />
-    <Compile Include="Geometry2D\IIntersect.cs" />
+    <Compile Include="Geometry2D\Intersection.cs" />
     <Compile Include="Geometry2D\IntersectionResult.cs" />
     <Compile Include="Geometry2D\IntersectionType.cs" />
     <Compile Include="Geometry2D\Setup.cs" />

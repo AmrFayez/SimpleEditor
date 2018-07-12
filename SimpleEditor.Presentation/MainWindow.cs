@@ -21,15 +21,17 @@ namespace SimpleEditor.Presentation
         #region  Drawing Properties
         PointF p1;
         PointF p2;
-        PointF p3;
         PointF delta_Y;
-        public GeometryEngine ge { get; set; } = new GeometryEngine();
+        public GeometryEngine ge = new GeometryEngine();
         private int clickCount;
         public Graphics g;
         private GShape tempShape;
         private GPolyLine tempPolyLine;
+        private GArc tempArc;
         bool exitPolyLine;
         #endregion
+
+        #region Constructor
         public MainWindow()
         {
             InitializeComponent();
@@ -42,7 +44,9 @@ namespace SimpleEditor.Presentation
             Setup.Configure();
 
         }
+        #endregion
 
+        #region Control Events
         private void EditorWindow_KeyPress(object sender, KeyPressEventArgs e)
         {
 
@@ -73,28 +77,40 @@ namespace SimpleEditor.Presentation
 
             ge.Paint(g);
         }
+        protected override void OnResize(EventArgs e)
+        {
+
+            ContentPanel.Size = new Size(this.Width, this.Height);
+            ContentPanel.Invalidate();
+            editorWindow.Width = this.Width;
+            editorWindow.Height = this.Height;
+            editorWindow.Size = new Size(this.Width, this.Height);
+            ContentPanel.Invalidate();
+        }
+
+        #endregion
 
         #region Mouse Events
         private void EditorWindow_MouseDown(object sender, MouseEventArgs e)
         {
-            
-            if ((clickCount >=1 ||ge.Shapes.Count>0) && ge.ActiveCommand == DrawCommands.PolyLine)
+
+            if ((clickCount >= 1 || ge.Shapes.Count > 0) && ge.ActiveCommand == DrawCommands.PolyLine)
             {
                 clickCount++;
                 tempPolyLine.Lines.Add((GLine)tempShape);
                 p1 = p2 = new PointF(e.X, e.Y);
                 tempShape = new GLine(p1, p2);
-                if (clickCount>=1)
+                if (clickCount >= 1)
                 {
                     clickCount = 0;
                 }
             }
-           else if (ge.ActiveCommand != DrawCommands.Noun)
+            else if (ge.ActiveCommand != DrawCommands.Noun)
             {
-                clickCount ++;
+                clickCount++;
                 p1 = p2 = new PointF(e.X, e.Y);
             }
-            
+
 
         }
         private void EditorWindow_MouseMove(object sender, MouseEventArgs e)
@@ -104,6 +120,8 @@ namespace SimpleEditor.Presentation
             {
                 delta_Y = p2.Sub(e.Location);
                 p2 = new PointF(e.X, e.Y);
+
+
 
                 switch (ge.ActiveCommand)
                 {
@@ -132,6 +150,50 @@ namespace SimpleEditor.Presentation
 
                         break;
                     case DrawCommands.Arc:
+                        if (clickCount == 1)
+                        {
+                            var arcWidth = p2.X - p1.X;
+                            var arcHeight = p2.Y - p1.Y;
+                            arcWidth = Math.Abs(arcWidth);
+                            arcHeight = Math.Abs(arcHeight);
+                            if (arcWidth == 0)
+                            {
+                                arcWidth = 5;
+
+                            }
+                            if (arcHeight==0)
+                            {
+                                arcHeight = 5;
+                            }
+                            if (tempArc == null)
+                            {
+                                tempShape = tempArc = new GArc(p1, arcWidth, arcHeight, 0,180);
+                            }
+                            else
+                            {
+
+                                tempArc.Diameter = arcWidth;
+                                tempArc.Height = arcHeight;
+                            }
+
+
+                        }
+
+                        else if (clickCount == 2)
+                        {
+                            var height = Math.Abs(p1.Y - p2.Y);
+                            height = Math.Abs(height);
+                            if (height==0)
+                            {
+                                height = 5;
+                            }
+                            
+
+                            tempArc.Height = height;
+
+
+                        }
+
                         break;
                     case DrawCommands.Clear:
                         break;
@@ -184,21 +246,21 @@ namespace SimpleEditor.Presentation
 
                     if ((tempPolyLine.Lines.Count >= 1))
                     {
-                        
+
                         var dist = tempPolyLine.Lines.FirstOrDefault().EndPoint.Distance(p2);
-                       // exitPolyLine = dist < 5;
+                        // exitPolyLine = dist < 5;
                     }
 
-                    if (!exitPolyLine&&tempShape !=null)
+                    if (!exitPolyLine && tempShape != null)
                     {
 
                         var l = (GLine)tempShape;
                         clickCount++;
-                        if (clickCount>=1)
+                        if (clickCount >= 1)
                         {
                             clickCount = 1;
                         }
-                        
+
                     }
                     if (exitPolyLine)
                     {
@@ -206,11 +268,24 @@ namespace SimpleEditor.Presentation
                         clickCount = 0;
                         tempShape = null;
                         tempPolyLine = null;
-                        exitPolyLine =! exitPolyLine;
+                        exitPolyLine = !exitPolyLine;
                     }
-                    
+
                     break;
                 case DrawCommands.Arc:
+                    if (clickCount == 2)
+                    {
+
+                    }
+                    else if (clickCount == 3)
+                    {
+                        clickCount = 0;
+                        ge.AddShape(tempArc);
+                        tempShape = null;
+                        tempArc = null;
+                        ge.ActiveCommand = DrawCommands.Noun;
+
+                    }
                     break;
                 case DrawCommands.Clear:
                     break;
@@ -220,14 +295,11 @@ namespace SimpleEditor.Presentation
                     break;
             }
             editorWindow.Invalidate();
-            
+
 
 
         }
-
         #endregion
-
-
 
         #region Menue Buttons Events
         private void btn_new_Click(object sender, EventArgs e)
@@ -249,29 +321,18 @@ namespace SimpleEditor.Presentation
         }
         private void btn_Arc_Click(object sender, EventArgs e)
         {
-
+            ge.ActiveCommand = DrawCommands.Arc;
         }
         private void btn_PolyLine_Click(object sender, EventArgs e)
         {
-            ge.ActiveCommand = DrawCommands.PolyLine;
-                        tempPolyLine = new GPolyLine();
+
+            tempPolyLine = new GPolyLine();
             ge.AddShape(tempPolyLine);
-           
+
         }
         private void btn_Remove_Click(object sender, EventArgs e)
         {
-            //GPolyLine polyLine = new GPolyLine(
-            //    (new List<PointF>
-            //    {
-            //        new PointF(5,5),
-            //         new PointF(0, 50),
 
-            //         new PointF(50, 50),
-            //          new PointF(50, 5),
-
-            //           // new PointF(0, 0),
-            //    }));
-            //polyLine.Draw(g);
         }
 
         private void btn_Clear_Click(object sender, EventArgs e)
@@ -285,16 +346,7 @@ namespace SimpleEditor.Presentation
         }
 
         #endregion
-        protected override void OnResize(EventArgs e)
-        {
 
-            ContentPanel.Size = new Size(this.Width, this.Height);
-            ContentPanel.Invalidate();
-            editorWindow.Width = this.Width;
-            editorWindow.Height = this.Height;
-            editorWindow.Size = new Size(this.Width, this.Height);
-            ContentPanel.Invalidate();
-        }
 
 
     }

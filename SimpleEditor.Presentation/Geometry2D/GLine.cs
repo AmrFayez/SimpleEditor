@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
-    public class GLine : GShape, IIntersect
+    public class GLine : GShape  
     {
         public static Brush LineStroke { get; set; }
         public static float LineWidth { get; set; }
@@ -27,7 +27,7 @@ namespace SimpleEditor.Presentation.Geometry2D
         {
             if (gShape is GCircle)
             {
-                var res = GeometryEngine.CircleLine((GCircle)gShape, this);
+                var res = Intersection.CircleLine((GCircle)gShape, this);
 
                 if (res.IntersectionPoints.Count > 0)
                 {
@@ -37,7 +37,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             }
             else if (gShape is GLine)
             {
-                var res = GeometryEngine.LineLine((GLine)gShape, this);
+                var res = Intersection.LineLine((GLine)gShape, this);
 
                 if (res.IntersectionPoints.Count > 0)
                 {
@@ -49,7 +49,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             {
                 foreach (var line in ((GRectangle)gShape).Lines)
                 {
-                    var res = GeometryEngine.LineLine(line, this);
+                    var res = Intersection.LineLine(line, this);
 
                     if (res.IntersectionPoints.Count > 0)
                     {

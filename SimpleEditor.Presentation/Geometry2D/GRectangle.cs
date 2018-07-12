@@ -54,7 +54,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             {
                 foreach (var line in Lines)
                 {
-                    var res = GeometryEngine.LineLine((GLine)gShape, line);
+                    var res = Intersection.LineLine((GLine)gShape, line);
 
                     if (res.IntersectionPoints.Count > 0)
                     {
@@ -66,7 +66,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             {
                 foreach (var line in Lines)
                 {
-                    var res = GeometryEngine.CircleRectangle((GCircle)gShape, this);
+                    var res = Intersection.CircleRectangle((GCircle)gShape, this);
 
                     if (res.IntersectionPoints.Count == 0) return;
 
@@ -79,7 +79,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                 {
                     foreach (var recLine in ((GRectangle)gShape).Lines)
                     {
-                        var res = GeometryEngine.LineLine(line, recLine);
+                        var res = Intersection.LineLine(line, recLine);
 
                         if (res.IntersectionPoints.Count == 0) continue;
 
