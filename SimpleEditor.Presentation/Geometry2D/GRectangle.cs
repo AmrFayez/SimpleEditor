@@ -1,10 +1,5 @@
-﻿using SimpleEditor.Presentation.Common;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
@@ -87,6 +82,34 @@ namespace SimpleEditor.Presentation.Geometry2D
                     }
 
                 }
+            }
+
+            else if (gShape is GPolyLine)
+            {
+                foreach (var line in Lines)
+                {
+                    foreach (var pLine in ((GPolyLine)gShape).Lines)
+                    {
+                        var res = Intersection.LineLine(line, pLine);
+
+                        if (res.IntersectionPoints.Count == 0) continue;
+
+                        IntersectionResults.Add(res);
+                    }
+
+                }
+            }
+
+            else if (gShape is GArc)
+            {
+                IntersectionResult res = new IntersectionResult();
+                foreach (var line in Lines)
+                {
+                    Intersection.ArcLine((GArc)gShape, line);
+                    if (res.IntersectionPoints.Count == 0) return;
+                    IntersectionResults.Add(res);
+                }
+
             }
         }
 

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\NumericExtensions.cs" />
     <Compile Include="Common\PointExtension.cs" />
     <Compile Include="controls\EditorControl.cs">
       <SubType>UserControl</SubType>
@@ -76,20 +77,16 @@
     <Compile Include="Geometry2D\IntersectionResult.cs" />
     <Compile Include="Geometry2D\IntersectionType.cs" />
     <Compile Include="Geometry2D\Setup.cs" />
-    <Compile Include="MainWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainWindow.Designer.cs">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleEditorW.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SimpleEditorW.Designer.cs">
+      <DependentUpon>SimpleEditorW.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="controls\EditorControl.resx">
       <DependentUpon>EditorControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -100,6 +97,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SimpleEditorW.resx">
+      <DependentUpon>SimpleEditorW.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

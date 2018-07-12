@@ -49,5 +49,18 @@ namespace SimpleEditor.Presentation.Common
 
 
         }
+
+        public static PointF Normalize(this PointF p)
+        {
+            var l = p.Length();
+            return new PointF(p.X / l, p.Y / l);
+
+        }
+        public static float Length(this PointF p)
+        {
+
+          return ((float) Math.Sqrt((p.X * p.X) + (p.Y * p.Y)));
+
+        }
     }
 }

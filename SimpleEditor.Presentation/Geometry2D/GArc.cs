@@ -1,30 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
     public class GArc : GShape
     {
+
+        #region StaticProperties
         public static Brush ArcFill { get; set; }
         public static Brush ArcStroke { get; set; }
         public static float ArcWidth { get; set; }
         public static Brush CenterPointFill { get; set; }
         public static Brush CenterPointStroke { get; set; }
+        #endregion
+
+        #region Properties
         public PointF Start { get; set; }
-        public float Diameter { get; set; }
-        public float Height { get; set; }
+        public float MajorAxe { get; set; }
+        public float MinorAxe { get; set; }
         public float StartAngle { get; set; }
         public float SweepAngle { get; set; }
+        public PointF Center { get; set; }
+        #endregion
 
         public GArc(PointF start, float diameter, float height, float startAngle, float sweepAngle)
         {
             Start = start;
-            Diameter = diameter;
-            Height = height;
+            MajorAxe = diameter;
+            MinorAxe = height;
             StartAngle = startAngle;
             SweepAngle = sweepAngle;
             Stroke = ArcStroke;
@@ -42,6 +44,18 @@ namespace SimpleEditor.Presentation.Geometry2D
                 IntersectionResults.Add(res);
             }
 
+            else if (gShape is GRectangle)
+            {
+                new IntersectionResult();
+                foreach (var line in ((GRectangle)gShape).Lines)
+                {
+                  res=  Intersection.ArcLine(this, line);
+                    if (res.IntersectionPoints.Count == 0) return;
+                    IntersectionResults.Add(res);
+                }
+
+            }
+
         }
         public override void Draw(Graphics g)
         {
@@ -49,9 +63,14 @@ namespace SimpleEditor.Presentation.Geometry2D
             //set Pen Properties Before Drawing
             Pen.Brush = Stroke;
             Pen.Width = Width;
-            g.DrawArc(Pen, Start.X, Start.Y, Diameter, Height, StartAngle, SweepAngle);
+            g.DrawArc(Pen, Start.X, Start.Y, MajorAxe, MinorAxe, StartAngle, SweepAngle);
             ResetPen();
             DrawIntersectedPoints(g);
         }
+        public void CalculatePosition()
+        {
+
+        }
+      
     }
 }

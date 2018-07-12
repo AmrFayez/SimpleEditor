@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SimpleEditor.Presentation.Common;
+using SimpleEditor.Presentation.Geometry2D;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,18 +8,13 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SimpleEditor.Presentation;
-using SimpleEditor.Presentation.Common;
-using SimpleEditor.Presentation.Geometry2D;
 
 namespace SimpleEditor.Presentation
 {
-    public partial class MainWindow : Form
+    public partial class SimpleEditorW : Form
     {
-
         #region  Drawing Properties
         PointF p1;
         PointF p2;
@@ -28,21 +25,23 @@ namespace SimpleEditor.Presentation
         private GShape tempShape;
         private GPolyLine tempPolyLine;
         private GArc tempArc;
-        bool exitPolyLine;
         #endregion
 
         #region Constructor
-        public MainWindow()
+        public SimpleEditorW()
         {
             InitializeComponent();
+            
             editorWindow.MouseDown += EditorWindow_MouseDown;
             editorWindow.MouseMove += EditorWindow_MouseMove;
             editorWindow.MouseUp += EditorWindow_MouseUp;
             editorWindow.Paint += EditorWindow_Paint;
-            editorWindow.KeyPress += EditorWindow_KeyPress; ;
+            editorWindow.KeyPress += EditorWindow_KeyPress;
+            editorWindow.MouseDoubleClick += EditorWindow_MouseDoubleClick;
+            tabControl1.SelectTab(1);
             g = editorWindow.CreateGraphics();
-            Setup.Configure();
 
+            Setup.Configure();
         }
         #endregion
 
@@ -52,22 +51,22 @@ namespace SimpleEditor.Presentation
 
             switch (e.KeyChar)
             {
-                case '\u001b':
-                    exitPolyLine = true;
-                    clickCount = 0;
-                    var t = tempPolyLine;
-                    ge.ActiveCommand = DrawCommands.Noun;
-                    tempShape = null;
-                    tempPolyLine = null;
-                    break;
-                default:
-                    break;
+                //case '\u001b':
+                //    clickCount = 0;
+                //    var t = tempPolyLine;
+                //    ge.ActiveCommand = DrawCommands.Noun;
+                //    tempShape = null;
+                //    tempPolyLine = null;
+                //    break;
+                //default:
+                //    break;
             }
 
         }
 
         private void EditorWindow_Paint(object sender, PaintEventArgs e)
         {
+            base.OnPaint(e);
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
             if (tempShape != null)
@@ -80,12 +79,9 @@ namespace SimpleEditor.Presentation
         protected override void OnResize(EventArgs e)
         {
 
-            ContentPanel.Size = new Size(this.Width, this.Height);
-            ContentPanel.Invalidate();
-            editorWindow.Width = this.Width;
-            editorWindow.Height = this.Height;
-            editorWindow.Size = new Size(this.Width, this.Height);
-            ContentPanel.Invalidate();
+
+            editorWindow.Size = Size;
+
         }
 
         #endregion
@@ -94,18 +90,23 @@ namespace SimpleEditor.Presentation
         private void EditorWindow_MouseDown(object sender, MouseEventArgs e)
         {
 
-            if ((clickCount >= 1 || ge.Shapes.Count > 0) && ge.ActiveCommand == DrawCommands.PolyLine)
-            {
-                clickCount++;
-                tempPolyLine.Lines.Add((GLine)tempShape);
-                p1 = p2 = new PointF(e.X, e.Y);
-                tempShape = new GLine(p1, p2);
-                if (clickCount >= 1)
-                {
-                    clickCount = 0;
-                }
-            }
-            else if (ge.ActiveCommand != DrawCommands.Noun)
+            //if ((clickCount >= 1 || ge.Shapes.Count > 0) && ge.ActiveCommand == DrawCommands.PolyLine)
+            //{
+            //    clickCount++;
+            //    tempPolyLine.Lines.Add((GLine)tempShape);
+            //    p1 = p2 = new PointF(e.X, e.Y);
+            //    tempShape = new GLine(p1, p2);
+            //    if (clickCount >= 1)
+            //    {
+            //        clickCount = 0;
+            //    }
+            //}
+            //else if (ge.ActiveCommand != DrawCommands.Noun)
+            //{
+            //    clickCount++;
+            //    p1 = p2 = new PointF(e.X, e.Y);
+            //}
+            if (ge.ActiveCommand != DrawCommands.Noun)
             {
                 clickCount++;
                 p1 = p2 = new PointF(e.X, e.Y);
@@ -121,8 +122,6 @@ namespace SimpleEditor.Presentation
                 delta_Y = p2.Sub(e.Location);
                 p2 = new PointF(e.X, e.Y);
 
-
-
                 switch (ge.ActiveCommand)
                 {
                     case DrawCommands.Line:
@@ -136,17 +135,54 @@ namespace SimpleEditor.Presentation
                         tempShape = new GRectangle(p1, p2);
                         break;
                     case DrawCommands.PolyLine:
-                        if (!exitPolyLine)
+                        tempShape = tempPolyLine;
+                        if (clickCount == 1)
                         {
-                            if (tempShape != null)
+                            if (tempPolyLine == null)
                             {
-                                ((GLine)tempShape).EndPoint = p2;
+                                tempPolyLine = new GPolyLine();
+                                tempPolyLine.Lines.Add(new GLine(p1, p2));
                             }
                             else
                             {
-                                tempShape = new GLine(p1, p2);
+                                tempPolyLine.Lines.LastOrDefault().EndPoint = p2;
                             }
+
                         }
+                        else if (clickCount == 2)
+                        {
+                            //check end line position to exit or continue drawing.
+                            var snap = 5;
+                            var prevLine = tempPolyLine.Lines.LastOrDefault();
+                            tempPolyLine.Lines.Add(new GLine(prevLine.EndPoint, p2));
+
+                            if (p2.Distance(tempPolyLine.Lines.FirstOrDefault().StartPoint) < snap)
+                            {
+                                ge.AddShape(tempShape);
+                                clickCount = 0;
+                                tempShape = null;
+                                tempPolyLine = null;
+                                //ge.ActiveCommand = DrawCommands.Noun;
+                            }
+                            else
+                            {
+                                clickCount--;
+                            }
+
+
+                        }
+                        //if (!exitPolyLine)
+                        //{
+                        //    if (tempShape != null)
+                        //    {
+                        //        ((GLine)tempShape).EndPoint = p2;
+                        //    }
+                        //    else
+                        //    {
+                        //        tempShape = new GLine(p1, p2);
+                        //        tempPolyLine.Lines.Add((GLine)tempShape);
+                        //    }
+                        //}
 
                         break;
                     case DrawCommands.Arc:
@@ -161,19 +197,20 @@ namespace SimpleEditor.Presentation
                                 arcWidth = 5;
 
                             }
-                            if (arcHeight==0)
+                            if (arcHeight == 0)
                             {
                                 arcHeight = 5;
                             }
                             if (tempArc == null)
                             {
-                                tempShape = tempArc = new GArc(p1, arcWidth, arcHeight, 0,180);
+
+                                tempShape = tempArc = new GArc(p1, arcWidth, arcHeight, 0, 180);
                             }
                             else
                             {
 
-                                tempArc.Diameter = arcWidth;
-                                tempArc.Height = arcHeight;
+                                tempArc.MajorAxe = arcWidth;
+                                tempArc.MinorAxe = arcHeight;
                             }
 
 
@@ -183,13 +220,13 @@ namespace SimpleEditor.Presentation
                         {
                             var height = Math.Abs(p1.Y - p2.Y);
                             height = Math.Abs(height);
-                            if (height==0)
+                            if (height == 0)
                             {
                                 height = 5;
                             }
-                            
 
-                            tempArc.Height = height;
+
+                            tempArc.MinorAxe = height;
 
 
                         }
@@ -244,32 +281,6 @@ namespace SimpleEditor.Presentation
                     break;
                 case DrawCommands.PolyLine:
 
-                    if ((tempPolyLine.Lines.Count >= 1))
-                    {
-
-                        var dist = tempPolyLine.Lines.FirstOrDefault().EndPoint.Distance(p2);
-                        // exitPolyLine = dist < 5;
-                    }
-
-                    if (!exitPolyLine && tempShape != null)
-                    {
-
-                        var l = (GLine)tempShape;
-                        clickCount++;
-                        if (clickCount >= 1)
-                        {
-                            clickCount = 1;
-                        }
-
-                    }
-                    if (exitPolyLine)
-                    {
-                        ge.ActiveCommand = DrawCommands.Noun;
-                        clickCount = 0;
-                        tempShape = null;
-                        tempPolyLine = null;
-                        exitPolyLine = !exitPolyLine;
-                    }
 
                     break;
                 case DrawCommands.Arc:
@@ -299,6 +310,16 @@ namespace SimpleEditor.Presentation
 
 
         }
+        private void EditorWindow_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (ge.ActiveCommand == DrawCommands.PolyLine)
+            {
+                ge.AddShape(tempShape);
+                clickCount = 0;
+                tempShape = null;
+                tempPolyLine = null;
+            }
+        }
         #endregion
 
         #region Menue Buttons Events
@@ -325,14 +346,27 @@ namespace SimpleEditor.Presentation
         }
         private void btn_PolyLine_Click(object sender, EventArgs e)
         {
-
-            tempPolyLine = new GPolyLine();
-            ge.AddShape(tempPolyLine);
+            ge.ActiveCommand = DrawCommands.PolyLine;
+            //ge.AddShape(tempPolyLine);
 
         }
         private void btn_Remove_Click(object sender, EventArgs e)
         {
+            var start = new PointF(100, 100);
+            var end = new PointF(200, 60);
+            var l = new GLine(new PointF(100, 100), new PointF(200, 60));
+            l.Draw(g);
+            GeometryEngine.DrawPoint(g, new PointF(130, 20));
+            var dx = 200 - 100;
+            var dy = 100 - 20;
 
+            //var r= new GRectangle(new PointF( 75, 75),new PointF(125,125));
+            //var c = new GCircle(new PointF(100, 100), 25);
+            //c.Draw(g);
+            // r.Draw(g);
+            var startAngle = Math.Acos((start.Normalize()).Dot(new PointF(1, 0).Normalize())).ToDegrees();
+            var endAngle = Math.Acos((end.Normalize()).Dot(new PointF(1, 0).Normalize())).ToDegrees();
+            g.DrawArc(new Pen(Brushes.Red, 3), new Rectangle(100, 100 - dy, dx, dy * 2), -180, 140);
         }
 
         private void btn_Clear_Click(object sender, EventArgs e)
@@ -345,9 +379,9 @@ namespace SimpleEditor.Presentation
 
         }
 
+
         #endregion
 
-
-
+       
     }
 }

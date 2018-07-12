@@ -1,6 +1,6 @@
 ﻿namespace SimpleEditor.Presentation
 {
-    partial class MainWindow
+    partial class SimpleEditorW
     {
         /// <summary>
         /// Required designer variable.
@@ -28,16 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
-            this.TopToolStripPanel = new System.Windows.Forms.ToolStripPanel();
-            this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
-            this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
-            this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
-            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.lbl_info = new System.Windows.Forms.ToolStripLabel();
-            this.editorWindow = new SimpleEditor.Presentation.controls.EditorControl();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimpleEditorW));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tab_File = new System.Windows.Forms.TabPage();
             this.btn_new = new System.Windows.Forms.Button();
@@ -49,95 +40,11 @@
             this.btn_PolyLine = new System.Windows.Forms.Button();
             this.btn_line = new System.Windows.Forms.Button();
             this.btn_Rectangle = new System.Windows.Forms.Button();
-            this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
-            this.toolStripContainer1.ContentPanel.SuspendLayout();
-            this.toolStripContainer1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
+            this.editorWindow = new SimpleEditor.Presentation.controls.EditorControl();
             this.tabControl1.SuspendLayout();
             this.tab_File.SuspendLayout();
             this.tab_Draw.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // BottomToolStripPanel
-            // 
-            this.BottomToolStripPanel.Location = new System.Drawing.Point(0, 0);
-            this.BottomToolStripPanel.Name = "BottomToolStripPanel";
-            this.BottomToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.BottomToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.BottomToolStripPanel.Size = new System.Drawing.Size(0, 0);
-            // 
-            // TopToolStripPanel
-            // 
-            this.TopToolStripPanel.Location = new System.Drawing.Point(0, 0);
-            this.TopToolStripPanel.Name = "TopToolStripPanel";
-            this.TopToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.TopToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.TopToolStripPanel.Size = new System.Drawing.Size(0, 0);
-            // 
-            // RightToolStripPanel
-            // 
-            this.RightToolStripPanel.Location = new System.Drawing.Point(0, 0);
-            this.RightToolStripPanel.Name = "RightToolStripPanel";
-            this.RightToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.RightToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.RightToolStripPanel.Size = new System.Drawing.Size(0, 0);
-            // 
-            // LeftToolStripPanel
-            // 
-            this.LeftToolStripPanel.Location = new System.Drawing.Point(0, 0);
-            this.LeftToolStripPanel.Name = "LeftToolStripPanel";
-            this.LeftToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            this.LeftToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.LeftToolStripPanel.Size = new System.Drawing.Size(0, 0);
-            // 
-            // ContentPanel
-            // 
-            this.ContentPanel.Size = new System.Drawing.Size(775, 425);
-            // 
-            // toolStripContainer1
-            // 
-            // 
-            // toolStripContainer1.BottomToolStripPanel
-            // 
-            this.toolStripContainer1.BottomToolStripPanel.Controls.Add(this.toolStrip1);
-            // 
-            // toolStripContainer1.ContentPanel
-            // 
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.editorWindow);
-            this.toolStripContainer1.ContentPanel.Controls.Add(this.tabControl1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1184, 611);
-            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(1184, 661);
-            this.toolStripContainer1.TabIndex = 0;
-            this.toolStripContainer1.Text = "toolStripContainer1";
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lbl_info});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(98, 25);
-            this.toolStrip1.TabIndex = 0;
-            // 
-            // lbl_info
-            // 
-            this.lbl_info.Name = "lbl_info";
-            this.lbl_info.Size = new System.Drawing.Size(86, 22);
-            this.lbl_info.Text = "toolStripLabel1";
-            // 
-            // editorWindow
-            // 
-            this.editorWindow.AutoScroll = true;
-            this.editorWindow.BackColor = System.Drawing.Color.AliceBlue;
-            this.editorWindow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editorWindow.Location = new System.Drawing.Point(0, 62);
-            this.editorWindow.Name = "editorWindow";
-            this.editorWindow.Size = new System.Drawing.Size(1184, 549);
-            this.editorWindow.TabIndex = 1;
             // 
             // tabControl1
             // 
@@ -147,9 +54,9 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1184, 62);
+            this.tabControl1.Size = new System.Drawing.Size(1284, 62);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
-            this.tabControl1.TabIndex = 1;
+            this.tabControl1.TabIndex = 2;
             // 
             // tab_File
             // 
@@ -157,7 +64,7 @@
             this.tab_File.Location = new System.Drawing.Point(4, 22);
             this.tab_File.Name = "tab_File";
             this.tab_File.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_File.Size = new System.Drawing.Size(1176, 36);
+            this.tab_File.Size = new System.Drawing.Size(1276, 36);
             this.tab_File.TabIndex = 0;
             this.tab_File.Text = "File";
             this.tab_File.UseVisualStyleBackColor = true;
@@ -166,10 +73,11 @@
             // 
             this.btn_new.Location = new System.Drawing.Point(17, 5);
             this.btn_new.Name = "btn_new";
-            this.btn_new.Size = new System.Drawing.Size(28, 28);
+            this.btn_new.Size = new System.Drawing.Size(45, 28);
             this.btn_new.TabIndex = 25;
             this.btn_new.Text = "&New";
             this.btn_new.UseVisualStyleBackColor = true;
+            
             // 
             // tab_Draw
             // 
@@ -183,7 +91,7 @@
             this.tab_Draw.Location = new System.Drawing.Point(4, 22);
             this.tab_Draw.Name = "tab_Draw";
             this.tab_Draw.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Draw.Size = new System.Drawing.Size(1176, 36);
+            this.tab_Draw.Size = new System.Drawing.Size(792, 36);
             this.tab_Draw.TabIndex = 1;
             this.tab_Draw.Text = "Draw";
             this.tab_Draw.UseVisualStyleBackColor = true;
@@ -267,38 +175,37 @@
             this.btn_Rectangle.UseVisualStyleBackColor = true;
             this.btn_Rectangle.Click += new System.EventHandler(this.btn_Rectangle_Click);
             // 
-            // MainWindow
+            // editorWindow
+            // 
+            this.editorWindow.AutoScroll = true;
+            this.editorWindow.AutoSize = true;
+            this.editorWindow.BackColor = System.Drawing.Color.AliceBlue;
+            this.editorWindow.Location = new System.Drawing.Point(0, 62);
+            this.editorWindow.MaximumSize = new System.Drawing.Size(2000, 2000);
+            this.editorWindow.Name = "editorWindow";
+            this.editorWindow.Size = new System.Drawing.Size(800, 388);
+            this.editorWindow.TabIndex = 3;
+            // 
+            // SimpleEditorW
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 661);
-            this.Controls.Add(this.toolStripContainer1);
-            this.Name = "MainWindow";
-            this.Text = "MainWindow";
-            this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
-            this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
-            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
-            this.toolStripContainer1.ResumeLayout(false);
-            this.toolStripContainer1.PerformLayout();
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
+            this.ClientSize = new System.Drawing.Size(1284, 611);
+            this.Controls.Add(this.editorWindow);
+            this.Controls.Add(this.tabControl1);
+            this.Name = "SimpleEditorW";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "SimpleEditorW";
             this.tabControl1.ResumeLayout(false);
             this.tab_File.ResumeLayout(false);
             this.tab_Draw.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
-        private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
-        private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
-        private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
-        private System.Windows.Forms.ToolStripContentPanel ContentPanel;
-        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripLabel lbl_info;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tab_File;
         private System.Windows.Forms.Button btn_new;

@@ -1,14 +1,10 @@
 ﻿using SimpleEditor.Presentation.Common;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
-   public class Intersection
+    public class Intersection
     {
         public static IntersectionResult LineLine(GLine l1, GLine l2)
         {
@@ -140,6 +136,21 @@ namespace SimpleEditor.Presentation.Geometry2D
             return result;
 
         }
+        public static IntersectionResult CirclePolyLine(GCircle circle, GPolyLine pl)
+        {
+            var result = new IntersectionResult();
+            foreach (var line in pl.Lines)
+            {
+                var intersect = CircleLine(circle, line);
+                if (intersect.IntersectionPoints.Count > 0)
+                {
+                    result.IntersectionPoints.
+                        AddRange(intersect.IntersectionPoints);
+                }
+            }
+            return result;
+
+        }
         public static bool PointLine(GLine l, PointF p)
         {
             var d1 = l.StartPoint.Distance(p);
@@ -165,9 +176,9 @@ namespace SimpleEditor.Presentation.Geometry2D
             double dy = line.EndPoint.Y - line.StartPoint.Y;
             double theta = Math.Atan2(dy, dx);
             var d = line.StartPoint.Distance(line.EndPoint);
-            double r = d- ((arc.Diameter * arc.Height) /
-                Math.Sqrt(Math.Pow(arc.Height* Math.Cos(theta), 2)
-                + Math.Pow(arc.Diameter * Math.Sin(theta), 2)));
+            double r = d- ((arc.MajorAxe * arc.MinorAxe) /
+                Math.Sqrt(Math.Pow(arc.MinorAxe* Math.Cos(theta), 2)
+                + Math.Pow(arc.MajorAxe * Math.Sin(theta), 2)));
 
           result.IntersectionPoints.Add(  
               new PointF((float)(line.StartPoint.X + r * Math.Cos(theta)),
@@ -192,6 +203,11 @@ namespace SimpleEditor.Presentation.Geometry2D
 
             }
             return result;
+        }
+
+        public  static void Intersect(GShape s1,GShape s2)
+        {
+
         }
     }
 }

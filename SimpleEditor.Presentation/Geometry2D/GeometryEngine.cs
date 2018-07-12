@@ -2,29 +2,30 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SimpleEditor.Presentation.Common;
 namespace SimpleEditor.Presentation.Geometry2D
 {
     [Serializable]
     public class GeometryEngine
     {
-
+        #region Properties
         public List<GShape> Shapes
         {
             get;
             set;
         }
         public DrawCommands ActiveCommand { get; set; }
+        #endregion
+
+        #region Constructors
+
+
 
         public GeometryEngine()
         {
             Shapes = new List<GShape>();
         }
-        #region IntersectionMethods
-        
         #endregion
+
         #region Draw Commands
         public void Paint(Graphics g)
         {

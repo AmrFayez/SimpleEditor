@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Drawing;
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
@@ -83,6 +77,20 @@ namespace SimpleEditor.Presentation.Geometry2D
                 IntersectionResults.Add(res);
 
             }
+            else if (gShape is GPolyLine)
+            {
+                foreach (var line in ((GPolyLine)gShape).Lines)
+                {
+                    var res = Intersection.CircleLine( this, line);
+
+                    if (res.IntersectionPoints.Count > 0)
+                    {
+                        IntersectionResults.Add(res);
+                    }
+                }
+
+            }
+          
         }
         #endregion
 

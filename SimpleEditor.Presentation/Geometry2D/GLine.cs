@@ -1,21 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
     public class GLine : GShape  
     {
+        #region Static Properties
+
+       
         public static Brush LineStroke { get; set; }
         public static float LineWidth { get; set; }
         public static float PointRadius { get; set; }
         public static Brush PointFill { get; set; }
         public static Brush PointStroke { get; set; }
+        #endregion
+
+        #region Properties
         public PointF StartPoint { get; set; }
         public PointF EndPoint { get; set; }
+        #endregion
+
+        #region Constructors
         public GLine(PointF startPoint, PointF endPoint)
         {
             StartPoint = startPoint;
@@ -23,6 +27,9 @@ namespace SimpleEditor.Presentation.Geometry2D
             Stroke =LineStroke;
             Width = LineWidth;
         }
+        #endregion
+
+        #region Methods
         public override void IntersectWith(GShape gShape)
         {
             if (gShape is GCircle)
@@ -45,7 +52,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                 }
             }
 
-            else if (gShape is GRectangle)
+            else if (gShape is GRectangle )
             {
                 foreach (var line in ((GRectangle)gShape).Lines)
                 {
@@ -56,6 +63,26 @@ namespace SimpleEditor.Presentation.Geometry2D
                         IntersectionResults.Add(res);
                     }
                 }
+            }
+            else if( gShape is GPolyLine)
+            {
+                foreach (var line in ((GPolyLine)gShape).Lines)
+                {
+                    var res = Intersection.LineLine(line, this);
+
+                    if (res.IntersectionPoints.Count > 0)
+                    {
+                        IntersectionResults.Add(res);
+                    }
+                }
+
+            }
+
+            else if (gShape is GArc)
+            {
+               var res = Intersection.ArcLine((GArc)gShape,this);
+                if (res.IntersectionPoints.Count == 0) return;
+                IntersectionResults.Add(res);
             }
         }
         //set pen brush
@@ -70,5 +97,8 @@ namespace SimpleEditor.Presentation.Geometry2D
             //draw intersected points
             DrawIntersectedPoints(g);
         }
+        #endregion
+
+
     }
 }
