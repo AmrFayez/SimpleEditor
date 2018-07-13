@@ -3,46 +3,22 @@ using System.Drawing;
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
-    public class GRectangle : GShape
+    public class GPolyLine : GShape
     {
-
-        public PointF FirstCorner { get; set; }
-        public PointF SecondCorner { get; set; }
         public List<GLine> Lines { get; set; }
-
-        public GRectangle(PointF firstCorner, PointF secondCorner)
+        public GPolyLine()
         {
-            FirstCorner = firstCorner;
-            SecondCorner = secondCorner;
             Stroke = GLine.LineStroke;
             Width = GLine.LineWidth;
             Lines = new List<GLine>();
         }
-
         public override void Draw(Graphics g)
         {
-            if (Lines.Count != 0)
-            {
-                Lines.Clear();
-            }
-
             Pen.Brush = Stroke;
             Pen.Width = Width;
-            var width = FirstCorner.X - SecondCorner.X;
-            var height = FirstCorner.Y - SecondCorner.Y;
-            var p1 = new PointF(FirstCorner.X, FirstCorner.Y - height);
-            var p2 = new PointF(FirstCorner.X - width, FirstCorner.Y);
-            Lines.Add(new GLine(FirstCorner, p1));
-            Lines.Add(new GLine(FirstCorner, p2));
-            Lines.Add(new GLine(SecondCorner, p1));
-            Lines.Add(new GLine(SecondCorner, p2));
-            foreach (var line in Lines)
-            {
-                line.Draw(g);
-            }
+            Lines.ForEach(e => e.Draw(g));
             DrawIntersectedPoints(g);
         }
-
         public override void IntersectWith(GShape gShape)
         {
             if (gShape is GLine)
@@ -61,7 +37,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             {
                 foreach (var line in Lines)
                 {
-                    var res = Intersection.CircleRectangle((GCircle)gShape, this);
+                    var res = Intersection.CirclePolyLine((GCircle)gShape, this);
 
                     if (res.IntersectionPoints.Count == 0) return;
 
@@ -99,19 +75,18 @@ namespace SimpleEditor.Presentation.Geometry2D
 
                 }
             }
+            else if (gShape is GCurve)
+            {
+                foreach (var line in Lines)
+                {
+                    var res = Intersection.CurvePolyLine((GCurve)gShape, this);
 
-            //else if (gShape is GArc)
-            //{
-            //    IntersectionResult res = new IntersectionResult();
-            //    foreach (var line in Lines)
-            //    {
-            //        Intersection.ArcLine((GArc)gShape, line);
-            //        if (res.IntersectionPoints.Count == 0) return;
-            //        IntersectionResults.Add(res);
-            //    }
+                    if (res.IntersectionPoints.Count == 0) return;
 
-            //}
+                    IntersectionResults.Add(res);
+                }
+            }
+
         }
-
     }
 }

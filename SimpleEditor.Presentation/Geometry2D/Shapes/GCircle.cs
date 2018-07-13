@@ -52,9 +52,10 @@ namespace SimpleEditor.Presentation.Geometry2D
         }
         public override void IntersectWith(GShape gShape)
         {
+            IntersectionResult res;
             if (gShape is GCircle)
             {
-                var res = Intersection.CircleCircle(this, (GCircle)gShape);
+                 res = Intersection.CircleCircle(this, (GCircle)gShape);
 
                 if (res.IntersectionPoints.Count == 0) return;
 
@@ -62,7 +63,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             }
             else if (gShape is GLine)
             {
-                var res = Intersection.CircleLine(this, (GLine)gShape);
+                  res = Intersection.CircleLine(this, (GLine)gShape);
 
                 if (res.IntersectionPoints.Count == 0) return;
 
@@ -70,7 +71,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             }
             else if (gShape is GRectangle)
             {
-                var res = Intersection.CircleRectangle(this, (GRectangle)gShape);
+                  res = Intersection.CircleRectangle(this, (GRectangle)gShape);
 
                 if (res.IntersectionPoints.Count == 0) return;
 
@@ -81,7 +82,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             {
                 foreach (var line in ((GPolyLine)gShape).Lines)
                 {
-                    var res = Intersection.CircleLine( this, line);
+                      res = Intersection.CircleLine( this, line);
 
                     if (res.IntersectionPoints.Count > 0)
                     {

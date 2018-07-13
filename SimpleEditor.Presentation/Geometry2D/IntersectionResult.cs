@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
+    /// <summary>
+    /// keep  Data about the  intersection happend
+    /// </summary>
     public class IntersectionResult
     {
         public List<PointF> IntersectionPoints { get; set; }
-        public GShape IntersectedShape { get; set; }
+        public GShape IntersectedWith{ get; set; }
         public IntersectionType IntersectionType { get; set; }
         public IntersectionResult()
         {

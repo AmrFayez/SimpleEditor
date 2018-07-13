@@ -14,6 +14,7 @@ namespace SimpleEditor.Presentation.Geometry2D
         public Brush Stroke { get; set; }
         public Brush Fill { get; set; }
         public float Width { get; set; }
+        public RecCollider Collider { get; set; }
         public List<IntersectionResult> IntersectionResults { get; set; }
         public GShape() :this(Setup.PenBrush,Setup.DefaultFill,Setup.PenWidth)
         {
@@ -26,6 +27,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             Fill = fill;
             Width = width;
             IntersectionResults = new List<IntersectionResult>();
+            Collider = new RecCollider();
         }
 
         public virtual void Draw(Graphics g)
@@ -45,7 +47,10 @@ namespace SimpleEditor.Presentation.Geometry2D
             var points = IntersectionResults.Select(p => p.IntersectionPoints).SelectMany(d => d).ToList();
             GeometryEngine.DrawPoint(g, points);
         }
-
+        public virtual void CalcCollider()
+        {
+          
+        }
         public  void ResetPen()
         {
             Pen.Brush = Brushes.Black;

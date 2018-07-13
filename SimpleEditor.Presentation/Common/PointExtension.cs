@@ -49,7 +49,14 @@ namespace SimpleEditor.Presentation.Common
 
 
         }
+        public static PointF Mid(this PointF p, PointF other)
+        {
+            var distance = p.Distance(other);
+            var direction = (other.Sub(p)).Normalize();
 
+           return p.Add(direction.Scale(distance / 2));
+
+        }
         public static PointF Normalize(this PointF p)
         {
             var l = p.Length();

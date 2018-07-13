@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Common\NumericExtensions.cs" />
     <Compile Include="Common\PointExtension.cs" />
+    <Compile Include="Common\Polynomial.cs" />
     <Compile Include="controls\EditorControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -66,17 +67,18 @@
       <DependentUpon>GLine.cs</DependentUpon>
     </Compile>
     <Compile Include="Geometry2D\DrawCommands.cs" />
-    <Compile Include="Geometry2D\GCircle.cs" />
-    <Compile Include="Geometry2D\GArc.cs" />
-    <Compile Include="Geometry2D\GCurve.cs" />
+    <Compile Include="Geometry2D\Shapes\GCircle.cs" />
+    <Compile Include="Geometry2D\Shapes\GArc.cs" />
+    <Compile Include="Geometry2D\Shapes\GCurve.cs" />
     <Compile Include="Geometry2D\GeometryEngine.cs" />
-    <Compile Include="Geometry2D\GLine.cs" />
-    <Compile Include="Geometry2D\GPolyLine.cs" />
-    <Compile Include="Geometry2D\GRectangle.cs" />
-    <Compile Include="Geometry2D\GShape.cs" />
+    <Compile Include="Geometry2D\Shapes\GLine.cs" />
+    <Compile Include="Geometry2D\Shapes\GPolyLine.cs" />
+    <Compile Include="Geometry2D\Shapes\GRectangle.cs" />
+    <Compile Include="Geometry2D\Shapes\GShape.cs" />
     <Compile Include="Geometry2D\Intersection.cs" />
     <Compile Include="Geometry2D\IntersectionResult.cs" />
     <Compile Include="Geometry2D\IntersectionType.cs" />
+    <Compile Include="Geometry2D\RecCollider.cs" />
     <Compile Include="Geometry2D\Setup.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

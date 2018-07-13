@@ -77,12 +77,12 @@ namespace SimpleEditor.Presentation.Geometry2D
                 }
 
             }
-            //else if (gShape is GArc)
-            //{
-            //   var res = Intersection.ArcLine((GArc)gShape,this);
-            //    if (res.IntersectionPoints.Count == 0) return;
-            //    IntersectionResults.Add(res);
-            //}
+            else if (gShape is GCurve)
+            {
+                var res = Intersection.CurveLine((GCurve)gShape, this);
+                if (res.IntersectionPoints.Count == 0) return;
+                IntersectionResults.Add(res);
+            }
         }
         //set pen brush
         public override void Draw(Graphics g)

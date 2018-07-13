@@ -168,7 +168,7 @@ namespace SimpleEditor.Presentation
 
                         else if (clickCount == 2)
                         {
-                            
+
                             if (tempShape is GCurve)
                             {
                                 ((GCurve)tempShape).Center = p2;
@@ -178,8 +178,8 @@ namespace SimpleEditor.Presentation
                                 var l = (GLine)tempShape;
                                 tempShape = new GCurve(l.StartPoint, p2, l.EndPoint);
                             }
-                            
-                            
+
+
                         }
                         else if (clickCount == 3)
                         {
@@ -306,27 +306,9 @@ namespace SimpleEditor.Presentation
         }
         private void btn_Remove_Click(object sender, EventArgs e)
         {
-
-            var start = new PointF(100, 100);
-            var end = new PointF(200, 60);
-            var p = new PointF(130, 20);
-            //var l = new GLine(start, end);
-            //var c = start.Add(end.Sub(start).Scale(.5f));
-            g.DrawCurve(new Pen(Brushes.Red, 3), new[] { start, p, end });
-            //l.Draw(g);
-            //GeometryEngine.DrawPoint(g,p );
-            //var dx = end.X-start.X;
-            //var dy =  p.Y - c.Y;
-            //dy = Math.Abs(dy);
-            //dx = Math.Abs(dx);
-
-            ////var r= new GRectangle(new PointF( 75, 75),new PointF(125,125));
-            ////var c = new GCircle(new PointF(100, 100), 25);
-            ////c.Draw(g);
-            //// r.Draw(g);
-            //var startAngle = Math.Acos((start.Normalize()).Dot(new PointF(1, 0).Normalize())).ToDegrees();
-            //var endAngle = Math.Acos((end.Normalize()).Dot(new PointF(1, 0).Normalize())).ToDegrees();
-            //g.DrawArc(new Pen(Brushes.Red, 3), new RectangleF(c.X-dx/2 ,c.Y-dy/2, dx, dy ), -180, 180);
+            //   TestCurveCurve();
+            curve();
+            
         }
 
         private void btn_Clear_Click(object sender, EventArgs e)
@@ -342,6 +324,74 @@ namespace SimpleEditor.Presentation
 
         #endregion
 
+        #region Visualization Test Methods
+        public void TestCurveBoundries()
+        {
+            var p1 = new PointF(100, 100);
+            var p2 = new Point(200, 100);
+            var p3 = new PointF(150, 50);
+            var p = new Pen(Brushes.Red, 3);
+            GCurve gc = new GCurve(p1, p3, p2);
+            gc.Draw(g);
+            var cp1 = new PointF(gc.Collider.Xmin, gc.Collider.Ymax);
+            var cp2 = new PointF(gc.Collider.Xmax, gc.Collider.Ymin);
+
+            GRectangle rec = new GRectangle(cp1, cp2);
+            rec.Draw(g);
+        }
+        public void TestMidPointFunction()
+        {
+            var p1 = new PointF(100, 100);
+            var p2 = new Point(200, 60);
+            var p3 = p1.Mid(p2);
+            GeometryEngine.DrawPoint(g,p1);
+            GeometryEngine.DrawPoint(g, p2);
+            GeometryEngine.DrawPoint(g, p3);
+        }
+        public void TestCurveCurve()
+        {
+            var p1 = new PointF(100, 100);
+            var p2 = new Point(200, 100);
+            var p3 = new PointF(150, 50);
+            var p = new Pen(Brushes.Red, 3);
+            GCurve gc = new GCurve(p1, p3, p2);
+            gc.Draw(g);
+            var cp1 = new PointF(gc.Collider.Xmin, gc.Collider.Ymax);
+            var cp2 = new PointF(gc.Collider.Xmax, gc.Collider.Ymin);
+
+            GRectangle rec = new GRectangle(cp1, cp2);
+            rec.Draw(g);
+            //curve 2
+
+            var r1 = new PointF(100, 80);
+            var r2 = new Point(200, 80);
+            var r3 = new PointF(150, 180);
+            var r = new Pen(Brushes.Red, 3);
+            GCurve c2 = new GCurve(r1, r3, r2);
+            c2.Draw(g);
+            var c2c1 = new PointF(c2.Collider.Xmin, c2.Collider.Ymax);
+            var c2c2 = new PointF(c2.Collider.Xmax, c2.Collider.Ymin);
+
+            GRectangle rec2 = new GRectangle(c2c1, c2c2);
+            var coll = gc.Collider.Collide(c2.Collider);
+            rec2.Draw(g);
+          gc.IntersectWith(c2);
+            gc.Draw(g);
+            c2.Draw(g);
+        }
+        public void curve()
+        {
+            var p1 = new PointF(100, 100);
+            var p2 = new Point(200, 100);
+            var p3 = new PointF(150, 50);
+            var p = new Pen(Brushes.Red, 3);
+            GCurve gc = new GCurve(p1, p3, p2);
+           var s1= gc.Divide();
+            s1.ForEach(e => e.Draw(g));
+            gc.Draw(g);
+            
+        }
+        #endregion
 
     }
 }
