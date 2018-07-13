@@ -55,6 +55,12 @@ namespace SimpleEditor.Presentation.Geometry2D
             GArc.ArcWidth = 2;
             GArc.CenterPointFill = Brushes.LightGreen;
             GArc.CenterPointStroke = Brushes.LightGreen;
+
+            //Curve Configuration
+            GCurve.CurveFill = Brushes.Transparent;
+            GCurve.CurveStroke = Brushes.Black;
+            GCurve.CurveWidth = 2;
+            
         }
     }
 }

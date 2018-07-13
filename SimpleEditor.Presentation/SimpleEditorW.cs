@@ -71,10 +71,11 @@ namespace SimpleEditor.Presentation
 
             if (tempShape != null)
             {
-                tempShape.Draw(g);
+                tempShape.Draw(e.Graphics);
             }
 
-            ge.Paint(g);
+            ge.Paint(e.Graphics);
+
         }
         protected override void OnResize(EventArgs e)
         {
@@ -157,115 +158,36 @@ namespace SimpleEditor.Presentation
                         }
 
                         break;
-                    case DrawCommands.Arc:
+                    case DrawCommands.Curve:
 
-                        #region Old
-                        //if (clickCount == 1)
-                        //{
-                        //var arcWidth = p2.X - p1.X;
-                        //var arcHeight = p2.Y - p1.Y;
-                        //arcWidth = Math.Abs(arcWidth);
-                        //arcHeight = Math.Abs(arcHeight);
-                        //if (arcWidth == 0)
-                        //{
-                        //    arcWidth = 5;
-
-                        //}
-                        //if (arcHeight == 0)
-                        //{
-                        //    arcHeight = 5;
-                        //}
-                        //if (tempArc == null)
-                        //{
-
-                        //    tempShape = tempArc = new GArc(p1, arcWidth, arcHeight, 0, 180);
-                        //}
-                        //else
-                        //{
-
-                        //    tempArc.MajorAxe = arcWidth;
-                        //    tempArc.MinorAxe = arcHeight;
-                        //}
-
-
-                        //}
-
-                        //else if (clickCount == 2)
-                        //{
-                        //    var height = Math.Abs(p1.Y - p2.Y);
-                        //    height = Math.Abs(height);
-                        //    if (height == 0)
-                        //    {
-                        //        height = 5;
-                        //    }
-
-
-                        //    tempArc.MinorAxe = height;
-
-
-                        //}
-                        #endregion
-
-                        #region Method #1
 
                         if (clickCount == 1)
                         {
                             tempShape = new GLine(p1, p2);
                         }
+
                         else if (clickCount == 2)
                         {
-                            var d = p2.Distance(p1);
-                            float arcWidth;
-                            float arcHeight;
-                            if (tempArc == null)
+                            
+                            if (tempShape is GCurve)
                             {
-                                var l = ((GLine)tempShape);
-
-                                arcWidth = l.EndPoint.X - l.StartPoint.X;
-                                arcHeight = l.EndPoint.Y - l.StartPoint.Y;
-                                arcWidth = Math.Abs(arcWidth);
-                                arcHeight = Math.Abs(arcHeight);
-                                if (arcHeight == 0)
-                                {
-                                    arcHeight = 1;
-
-                                }
-                                if (arcWidth == 0)
-                                {
-                                    arcWidth = 1;
-                                }
-
-                                tempShape = tempArc = new GArc(l.StartPoint, arcWidth, arcHeight, 0, d);
+                                ((GCurve)tempShape).Center = p2;
                             }
                             else
                             {
-                                arcHeight = p2.Sub(p1).Y;
-                                tempArc.SweepAngle = d;
-                                tempArc.Start =
-                                    new PointF(
-                                        tempArc.Start.X,
-                                    tempArc.Start.Y);
-
-                                if (p2.X - p1.X > 0)
-                                {
-                                    tempArc.StartAngle = -180;
-                                }
-                                else
-                                {
-                                    tempArc.StartAngle = 0;
-                                }
+                                var l = (GLine)tempShape;
+                                tempShape = new GCurve(l.StartPoint, p2, l.EndPoint);
                             }
-
+                            
+                            
                         }
                         else if (clickCount == 3)
                         {
+                            ((GCurve)tempShape).Center = p2;
                             ge.AddShape(tempShape);
+                            clickCount = 0;
                         }
 
-                        #endregion
-                        #region Method 2
-
-                        #endregion
                         break;
                     case DrawCommands.Clear:
                         break;
@@ -372,9 +294,9 @@ namespace SimpleEditor.Presentation
         {
             ge.ActiveCommand = DrawCommands.Circle;
         }
-        private void btn_Arc_Click(object sender, EventArgs e)
+        private void btn_Curve_Click(object sender, EventArgs e)
         {
-            ge.ActiveCommand = DrawCommands.Arc;
+            ge.ActiveCommand = DrawCommands.Curve;
         }
         private void btn_PolyLine_Click(object sender, EventArgs e)
         {
@@ -384,18 +306,20 @@ namespace SimpleEditor.Presentation
         }
         private void btn_Remove_Click(object sender, EventArgs e)
         {
-            //var start = new PointF(100, 100);
-            //var end = new PointF(200, 60);
-            //var p = new PointF(130, 20);
+
+            var start = new PointF(100, 100);
+            var end = new PointF(200, 60);
+            var p = new PointF(130, 20);
             //var l = new GLine(start, end);
             //var c = start.Add(end.Sub(start).Scale(.5f));
+            g.DrawCurve(new Pen(Brushes.Red, 3), new[] { start, p, end });
             //l.Draw(g);
             //GeometryEngine.DrawPoint(g,p );
             //var dx = end.X-start.X;
             //var dy =  p.Y - c.Y;
             //dy = Math.Abs(dy);
             //dx = Math.Abs(dx);
-           
+
             ////var r= new GRectangle(new PointF( 75, 75),new PointF(125,125));
             ////var c = new GCircle(new PointF(100, 100), 25);
             ////c.Draw(g);

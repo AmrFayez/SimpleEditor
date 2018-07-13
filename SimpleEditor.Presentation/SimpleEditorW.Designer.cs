@@ -34,7 +34,7 @@
             this.btn_new = new System.Windows.Forms.Button();
             this.tab_Draw = new System.Windows.Forms.TabPage();
             this.btn_Clear = new System.Windows.Forms.Button();
-            this.btn_Arc = new System.Windows.Forms.Button();
+            this.btn_Curve = new System.Windows.Forms.Button();
             this.btn_Remove = new System.Windows.Forms.Button();
             this.btn_Circle = new System.Windows.Forms.Button();
             this.btn_PolyLine = new System.Windows.Forms.Button();
@@ -77,12 +77,11 @@
             this.btn_new.TabIndex = 25;
             this.btn_new.Text = "&New";
             this.btn_new.UseVisualStyleBackColor = true;
-            
             // 
             // tab_Draw
             // 
             this.tab_Draw.Controls.Add(this.btn_Clear);
-            this.tab_Draw.Controls.Add(this.btn_Arc);
+            this.tab_Draw.Controls.Add(this.btn_Curve);
             this.tab_Draw.Controls.Add(this.btn_Remove);
             this.tab_Draw.Controls.Add(this.btn_Circle);
             this.tab_Draw.Controls.Add(this.btn_PolyLine);
@@ -91,7 +90,7 @@
             this.tab_Draw.Location = new System.Drawing.Point(4, 22);
             this.tab_Draw.Name = "tab_Draw";
             this.tab_Draw.Padding = new System.Windows.Forms.Padding(3);
-            this.tab_Draw.Size = new System.Drawing.Size(792, 36);
+            this.tab_Draw.Size = new System.Drawing.Size(1276, 36);
             this.tab_Draw.TabIndex = 1;
             this.tab_Draw.Text = "Draw";
             this.tab_Draw.UseVisualStyleBackColor = true;
@@ -107,16 +106,16 @@
             this.btn_Clear.UseVisualStyleBackColor = true;
             this.btn_Clear.Click += new System.EventHandler(this.btn_Clear_Click);
             // 
-            // btn_Arc
+            // btn_Curve
             // 
-            this.btn_Arc.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_Arc.BackgroundImage")));
-            this.btn_Arc.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_Arc.Location = new System.Drawing.Point(171, 4);
-            this.btn_Arc.Name = "btn_Arc";
-            this.btn_Arc.Size = new System.Drawing.Size(28, 28);
-            this.btn_Arc.TabIndex = 28;
-            this.btn_Arc.UseVisualStyleBackColor = true;
-            this.btn_Arc.Click += new System.EventHandler(this.btn_Arc_Click);
+            this.btn_Curve.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_Curve.BackgroundImage")));
+            this.btn_Curve.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btn_Curve.Location = new System.Drawing.Point(171, 4);
+            this.btn_Curve.Name = "btn_Curve";
+            this.btn_Curve.Size = new System.Drawing.Size(28, 28);
+            this.btn_Curve.TabIndex = 28;
+            this.btn_Curve.UseVisualStyleBackColor = true;
+            this.btn_Curve.Click += new System.EventHandler(this.btn_Curve_Click);
             // 
             // btn_Remove
             // 
@@ -180,10 +179,11 @@
             this.editorWindow.AutoScroll = true;
             this.editorWindow.AutoSize = true;
             this.editorWindow.BackColor = System.Drawing.Color.AliceBlue;
+            this.editorWindow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.editorWindow.Location = new System.Drawing.Point(0, 62);
             this.editorWindow.MaximumSize = new System.Drawing.Size(2000, 2000);
             this.editorWindow.Name = "editorWindow";
-            this.editorWindow.Size = new System.Drawing.Size(800, 388);
+            this.editorWindow.Size = new System.Drawing.Size(1284, 549);
             this.editorWindow.TabIndex = 3;
             // 
             // SimpleEditorW
@@ -211,7 +211,7 @@
         private System.Windows.Forms.Button btn_new;
         private System.Windows.Forms.TabPage tab_Draw;
         private System.Windows.Forms.Button btn_Clear;
-        private System.Windows.Forms.Button btn_Arc;
+        private System.Windows.Forms.Button btn_Curve;
         private System.Windows.Forms.Button btn_Remove;
         private System.Windows.Forms.Button btn_Circle;
         private System.Windows.Forms.Button btn_PolyLine;

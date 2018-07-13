@@ -68,6 +68,7 @@
     <Compile Include="Geometry2D\DrawCommands.cs" />
     <Compile Include="Geometry2D\GCircle.cs" />
     <Compile Include="Geometry2D\GArc.cs" />
+    <Compile Include="Geometry2D\GCurve.cs" />
     <Compile Include="Geometry2D\GeometryEngine.cs" />
     <Compile Include="Geometry2D\GLine.cs" />
     <Compile Include="Geometry2D\GPolyLine.cs" />

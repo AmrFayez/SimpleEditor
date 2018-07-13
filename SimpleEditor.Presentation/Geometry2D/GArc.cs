@@ -1,7 +1,9 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
+    [Obsolete("Need To be Fixed")]
     public class GArc : GShape
     {
 
@@ -14,6 +16,7 @@ namespace SimpleEditor.Presentation.Geometry2D
         #endregion
 
         #region Properties
+        
         public PointF Start { get; set; }
         public float MajorAxe { get; set; }
         public float MinorAxe { get; set; }

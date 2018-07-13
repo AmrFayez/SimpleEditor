@@ -10,6 +10,7 @@ namespace SimpleEditor.Presentation.Geometry2D
         Rectangle,
         PolyLine,
         Arc,
+        Curve,
         Clear,
         
     }
