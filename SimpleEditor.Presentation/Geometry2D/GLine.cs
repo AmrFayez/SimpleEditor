@@ -2,11 +2,11 @@
 
 namespace SimpleEditor.Presentation.Geometry2D
 {
-    public class GLine : GShape  
+    public class GLine : GShape
     {
         #region Static Properties
 
-       
+
         public static Brush LineStroke { get; set; }
         public static float LineWidth { get; set; }
         public static float PointRadius { get; set; }
@@ -24,7 +24,7 @@ namespace SimpleEditor.Presentation.Geometry2D
         {
             StartPoint = startPoint;
             EndPoint = endPoint;
-            Stroke =LineStroke;
+            Stroke = LineStroke;
             Width = LineWidth;
         }
         #endregion
@@ -52,7 +52,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                 }
             }
 
-            else if (gShape is GRectangle )
+            else if (gShape is GRectangle)
             {
                 foreach (var line in ((GRectangle)gShape).Lines)
                 {
@@ -64,7 +64,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                     }
                 }
             }
-            else if( gShape is GPolyLine)
+            else if (gShape is GPolyLine)
             {
                 foreach (var line in ((GPolyLine)gShape).Lines)
                 {
@@ -77,22 +77,21 @@ namespace SimpleEditor.Presentation.Geometry2D
                 }
 
             }
-
-            else if (gShape is GArc)
-            {
-               var res = Intersection.ArcLine((GArc)gShape,this);
-                if (res.IntersectionPoints.Count == 0) return;
-                IntersectionResults.Add(res);
-            }
+            //else if (gShape is GArc)
+            //{
+            //   var res = Intersection.ArcLine((GArc)gShape,this);
+            //    if (res.IntersectionPoints.Count == 0) return;
+            //    IntersectionResults.Add(res);
+            //}
         }
         //set pen brush
         public override void Draw(Graphics g)
         {
             Pen.Brush = Stroke;
             Pen.Width = Width;
-           
+
             g.DrawLine(Pen, StartPoint, EndPoint);
-            GeometryEngine.DrawPoint(g, StartPoint,PointFill,PointStroke);
+            GeometryEngine.DrawPoint(g, StartPoint, PointFill, PointStroke);
             GeometryEngine.DrawPoint(g, EndPoint, PointFill, PointStroke);
             //draw intersected points
             DrawIntersectedPoints(g);

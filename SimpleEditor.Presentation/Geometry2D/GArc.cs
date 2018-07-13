@@ -37,14 +37,14 @@ namespace SimpleEditor.Presentation.Geometry2D
         public override void IntersectWith(GShape gShape)
         {
             IntersectionResult res;
-            if (gShape is GLine)
-            {
-                res = Intersection.ArcLine(this, (GLine)gShape);
-                if (res.IntersectionPoints.Count == 0) return;
-                IntersectionResults.Add(res);
-            }
+            //if (gShape is GLine)
+            //{
+            //    res = Intersection.ArcLine(this, (GLine)gShape);
+            //    if (res.IntersectionPoints.Count == 0) return;
+            //    IntersectionResults.Add(res);
+            //}
 
-            else if (gShape is GRectangle)
+             if (gShape is GRectangle)
             {
                 new IntersectionResult();
                 foreach (var line in ((GRectangle)gShape).Lines)

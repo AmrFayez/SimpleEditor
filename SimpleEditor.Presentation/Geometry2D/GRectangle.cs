@@ -100,17 +100,17 @@ namespace SimpleEditor.Presentation.Geometry2D
                 }
             }
 
-            else if (gShape is GArc)
-            {
-                IntersectionResult res = new IntersectionResult();
-                foreach (var line in Lines)
-                {
-                    Intersection.ArcLine((GArc)gShape, line);
-                    if (res.IntersectionPoints.Count == 0) return;
-                    IntersectionResults.Add(res);
-                }
+            //else if (gShape is GArc)
+            //{
+            //    IntersectionResult res = new IntersectionResult();
+            //    foreach (var line in Lines)
+            //    {
+            //        Intersection.ArcLine((GArc)gShape, line);
+            //        if (res.IntersectionPoints.Count == 0) return;
+            //        IntersectionResults.Add(res);
+            //    }
 
-            }
+            //}
         }
 
     }
