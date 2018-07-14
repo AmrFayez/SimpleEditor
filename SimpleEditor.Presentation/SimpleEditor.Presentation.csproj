@@ -50,6 +50,7 @@
     <Compile Include="Common\Polynomial.cs" />
     <Compile Include="Geometry2D\DrawCommands.cs" />
     <Compile Include="Geometry2D\Editor2D.cs" />
+    <Compile Include="Geometry2D\Grid.cs" />
     <Compile Include="Geometry2D\Shapes\GCircle.cs" />
     <Compile Include="Geometry2D\Shapes\GArc.cs" />
     <Compile Include="Geometry2D\Shapes\GCurve.cs" />

@@ -12,6 +12,7 @@ namespace SimpleEditor.Presentation.Geometry2D
         public static float PointRadius { get; set; }
         public static Brush PointFill { get; set; }
         public static Brush PointStroke { get; set; }
+        public bool DrawPoints { get; set; }
         #endregion
 
         #region Properties
@@ -26,6 +27,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             EndPoint = endPoint;
             Stroke = LineStroke;
             Width = LineWidth;
+            DrawPoints = true;
         }
         #endregion
 
@@ -91,10 +93,17 @@ namespace SimpleEditor.Presentation.Geometry2D
             Pen.Width = Width;
 
             g.DrawLine(Pen, StartPoint, EndPoint);
-            Editor2D.DrawPoint(g, StartPoint, PointFill, PointStroke);
-            Editor2D.DrawPoint(g, EndPoint, PointFill, PointStroke);
+            if (DrawPoints)
+            {
+                Editor2D.DrawPoint(g, StartPoint, PointFill, PointStroke);
+                Editor2D.DrawPoint(g, EndPoint, PointFill, PointStroke);
+            }
+           
             //draw intersected points
             DrawIntersectedPoints(g);
+            //Stroke.Dispose();
+            //PointFill.Dispose();
+            //PointStroke.Dispose();
         }
         #endregion
 

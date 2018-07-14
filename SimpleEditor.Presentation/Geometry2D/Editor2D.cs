@@ -12,12 +12,22 @@ namespace SimpleEditor.Presentation.Geometry2D
 {
   public  class Editor2D
     {
+        #region Properties
+
         public PictureBox EditorWindow { get; set; }
         public GeometryEngine GeometryEngine { get; set; }
+        public Grid  Grid { get; set; }
+        public DrawCommands ActiveCommand { get; set; }
+        #endregion
+
+        #region Constructors
         public Editor2D(PictureBox editorWindow)
         {
             EditorWindow = editorWindow;
             GeometryEngine = new GeometryEngine();
+            //grid
+            Grid = new Grid(editorWindow.Width,editorWindow.Height);
+            Grid.Generate();
             // wiring the mouse events
             EditorWindow.MouseDown += EditorWindow_MouseDown;
             EditorWindow.MouseMove += EditorWindow_MouseMove;
@@ -26,8 +36,11 @@ namespace SimpleEditor.Presentation.Geometry2D
             EditorWindow.KeyPress += EditorWindow_KeyPress;
             EditorWindow.MouseDoubleClick += EditorWindow_MouseDoubleClick;
             EditorWindow.MouseWheel += EditorWindow_MouseWheel;
+
         }
-        #region Zoom and Pan PRoperties
+        #endregion
+
+        #region Zoom and Pan Properties
 
         Point mouseDown;
         int startx = 0;                         // offset of image when mouse was pressed
@@ -38,9 +51,6 @@ namespace SimpleEditor.Presentation.Geometry2D
         bool mousepressed = false;  // true as long as left mousebutton is pressed
         float zoom = 1;
         #endregion
-
-
-        public DrawCommands ActiveCommand { get; set; }
 
         #region  Drawing Properties
 
@@ -94,7 +104,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                         tempShape = new GLine(p1, p2);
                         break;
                     case DrawCommands.Circle:
-                        tempShape = new GCircle(p1, (float)p1.Distance(p2));
+                        tempShape = new GCircle(p1.Sub(new PointF(offsetX,offsetY)), (float)p1.Distance(p2));
                         break;
                     case DrawCommands.Rectangle:
 
@@ -197,7 +207,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                     EditorWindow.Refresh();
                 }
             }
-
+            
         }
 
         private void EditorWindow_MouseUp(object sender, MouseEventArgs e)
@@ -251,13 +261,25 @@ namespace SimpleEditor.Presentation.Geometry2D
         }
         private void EditorWindow_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (ActiveCommand == DrawCommands.PolyLine)
+            if (ActiveCommand != DrawCommands.Noun)
             {
+                
+                
+                
+                if (clickCount==2 && ActiveCommand != DrawCommands.PolyLine)
+                {
+                   
+                    clickCount = 0;
+                    return;
+                }
+
+                ActiveCommand = DrawCommands.Noun;
                 GeometryEngine.AddShape(tempShape);
-                clickCount = 0;
                 tempShape = null;
                 tempPolyLine = null;
+                clickCount = 0;
             }
+               
         }
 
         private void EditorWindow_KeyPress(object sender, KeyPressEventArgs e)
@@ -304,8 +326,10 @@ namespace SimpleEditor.Presentation.Geometry2D
 
             offsetX = newimagex - oldimagex + offsetX;  // Where to move image to keep focus on one point
             offsetY = newimagey - oldimagey + offsetY;
-
-            EditorWindow.Refresh();  // calls imageBox_Paint
+            //Grid.Scale(zoom);
+            //Grid.Translate(offsetX, offsetY);
+            //Grid.Generate();
+            EditorWindow.Invalidate();  // calls imageBox_Paint
         }
 
         private void EditorWindow_Paint(object sender, PaintEventArgs e)
@@ -316,13 +340,21 @@ namespace SimpleEditor.Presentation.Geometry2D
             //  e.Graphics.DrawImage(img, imgx, imgy);
             e.Graphics.TranslateTransform(offsetX, offsetY);
             
-
+            if (Grid.Lines.Count!=0)
+            {
+                foreach (var line in Grid.Lines)
+                {
+                    line.Draw(e.Graphics);
+                }
+            }
+            
             if (tempShape != null)
             {
                 tempShape.Draw(e.Graphics);
             }
 
             Paint(e.Graphics);
+           
 
         }
 
@@ -376,7 +408,7 @@ namespace SimpleEditor.Presentation.Geometry2D
         }
         #endregion
 
-
+        #region Method
         public void Paint(Graphics g)
         {
             if (GeometryEngine.Shapes.Count == 0)
@@ -419,5 +451,6 @@ namespace SimpleEditor.Presentation.Geometry2D
             ActiveCommand = DrawCommands.Noun;
             EditorWindow.Invalidate();
         }
+        #endregion
     }
 }

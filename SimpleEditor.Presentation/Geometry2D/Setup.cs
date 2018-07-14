@@ -9,6 +9,8 @@ namespace SimpleEditor.Presentation.Geometry2D
 {
     public class Setup
     {
+       
+
         // general Point Configuration
         public static float PenWidth { get; set; }
         public static Brush PenBrush { get; set; }
@@ -62,5 +64,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             GCurve.CurveWidth = 2;
             
         }
+
+       
     }
 }

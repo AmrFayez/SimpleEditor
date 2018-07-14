@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 namespace SimpleEditor.Presentation.Geometry2D
 {
     [Serializable]
-    public abstract class GShape
+    public abstract class GShape:IDisposable
     {
-        public static Pen Pen { get; set; } 
+        public static Pen Pen { get; set; }
+        = new Pen(Setup.PenBrush, Setup.PenWidth);
         public Brush Stroke { get; set; }
         public Brush Fill { get; set; }
         public float Width { get; set; }
@@ -55,6 +56,11 @@ namespace SimpleEditor.Presentation.Geometry2D
         {
             Pen.Brush = Brushes.Black;
             Pen.Width = 2;
+        }
+
+        public void Dispose()
+        {
+           
         }
     }
 }
