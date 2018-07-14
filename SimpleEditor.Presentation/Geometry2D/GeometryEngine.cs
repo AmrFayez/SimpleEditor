@@ -1,28 +1,36 @@
-﻿using System;
+﻿using SimpleEditor.Presentation.Common;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Windows.Forms;
+
 namespace SimpleEditor.Presentation.Geometry2D
 {
-    [Serializable]
     public class GeometryEngine
     {
 
         #region Properties
-        public  List<GShape> Shapes
+      public  Editor2D Editor2D { get; set; }
+        public List<GShape> Shapes
         {
             get;
             set;
         }
-        public List<GShape> ActiveSet { get; set; }
-        public DrawCommands ActiveCommand { get; set; }
+        private List<GShape> ActiveSet { get; set; }
         #endregion
-
         #region Constructors
         public GeometryEngine()
         {
             Shapes = new List<GShape>();
+           
+            Setup.Configure();
         }
+
+
+
+
         #endregion
 
         public void AddShape(GShape gShape)
@@ -60,45 +68,13 @@ namespace SimpleEditor.Presentation.Geometry2D
                 gShape.IntersectWith(shape);
             }
         }
-
         #region Draw Methods
-        public void Paint(Graphics g)
-        {
-            if (Shapes.Count == 0)
-            {
-                return;
-            }
-            foreach (var shape in Shapes)
-            {
-                shape.Draw(g);
-            }
+       
 
-        }
-        public static void DrawPoint(Graphics g, PointF p, Brush Fill = null, Brush Stroke = null)
-        {
-            Fill = Fill ?? Setup.PointFill;
-            Stroke = Stroke ?? Setup.PointStroke;
-            var rect = new RectangleF(
-                    new PointF(p.X - Setup.PointRadius, p.Y - Setup.PointRadius),
-                    new SizeF(Setup.PointRadius * 2, Setup.PointRadius * 2));
-
-            g.FillEllipse(Fill, rect);
-            GShape.Pen.Brush = Stroke;
-            g.DrawEllipse(GShape.Pen, rect);
-        }
-        public static void DrawPoint(Graphics g, List<PointF> points, Brush Fill = null, Brush Stroke = null)
-        {
-            if (points == null)
-            {
-                return;
-            }
-            foreach (var p in points)
-            {
-                DrawPoint(g, p);
-            }
-
-        }
         #endregion
+
+
+
 
     }
 }

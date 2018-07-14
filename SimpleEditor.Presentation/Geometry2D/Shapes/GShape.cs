@@ -45,7 +45,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                 return;
             }
             var points = IntersectionResults.Select(p => p.IntersectionPoints).SelectMany(d => d).ToList();
-            GeometryEngine.DrawPoint(g, points);
+            Editor2D.DrawPoint(g, points);
         }
         public virtual void CalcCollider()
         {

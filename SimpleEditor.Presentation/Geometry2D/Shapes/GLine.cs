@@ -91,8 +91,8 @@ namespace SimpleEditor.Presentation.Geometry2D
             Pen.Width = Width;
 
             g.DrawLine(Pen, StartPoint, EndPoint);
-            GeometryEngine.DrawPoint(g, StartPoint, PointFill, PointStroke);
-            GeometryEngine.DrawPoint(g, EndPoint, PointFill, PointStroke);
+            Editor2D.DrawPoint(g, StartPoint, PointFill, PointStroke);
+            Editor2D.DrawPoint(g, EndPoint, PointFill, PointStroke);
             //draw intersected points
             DrawIntersectedPoints(g);
         }

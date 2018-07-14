@@ -40,10 +40,11 @@
             this.btn_PolyLine = new System.Windows.Forms.Button();
             this.btn_line = new System.Windows.Forms.Button();
             this.btn_Rectangle = new System.Windows.Forms.Button();
-            this.editorWindow = new SimpleEditor.Presentation.controls.EditorControl();
+            this.editorWindow = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tab_File.SuspendLayout();
             this.tab_Draw.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.editorWindow)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -176,15 +177,13 @@
             // 
             // editorWindow
             // 
-            this.editorWindow.AutoScroll = true;
-            this.editorWindow.AutoSize = true;
-            this.editorWindow.BackColor = System.Drawing.Color.AliceBlue;
+            this.editorWindow.BackColor = System.Drawing.SystemColors.Window;
             this.editorWindow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.editorWindow.Location = new System.Drawing.Point(0, 62);
-            this.editorWindow.MaximumSize = new System.Drawing.Size(2000, 2000);
             this.editorWindow.Name = "editorWindow";
             this.editorWindow.Size = new System.Drawing.Size(1284, 549);
-            this.editorWindow.TabIndex = 3;
+            this.editorWindow.TabIndex = 9;
+            this.editorWindow.TabStop = false;
             // 
             // SimpleEditorW
             // 
@@ -199,8 +198,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tab_File.ResumeLayout(false);
             this.tab_Draw.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.editorWindow)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -217,6 +216,6 @@
         private System.Windows.Forms.Button btn_PolyLine;
         private System.Windows.Forms.Button btn_line;
         private System.Windows.Forms.Button btn_Rectangle;
-        private controls.EditorControl editorWindow;
+        private System.Windows.Forms.PictureBox editorWindow;
     }
 }

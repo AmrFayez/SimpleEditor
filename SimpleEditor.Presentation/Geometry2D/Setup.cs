@@ -44,21 +44,21 @@ namespace SimpleEditor.Presentation.Geometry2D
 
             //circle Configuration
             GCircle.CircleFill = Brushes.Transparent;
-            GCircle.CircleStroke = Brushes.Black;
+            GCircle.CircleStroke = Brushes.Blue;
             GCircle.CircleWidth = 2;
             GCircle.CenterPointFill = Brushes.LightGreen;
             GCircle.CenterPointStroke = Brushes.LightGreen;
 
             //Arc Configuration
             GArc.ArcFill = Brushes.Transparent;
-            GArc.ArcStroke = Brushes.Black;
+            GArc.ArcStroke = Brushes.Blue;
             GArc.ArcWidth = 2;
             GArc.CenterPointFill = Brushes.LightGreen;
             GArc.CenterPointStroke = Brushes.LightGreen;
 
             //Curve Configuration
             GCurve.CurveFill = Brushes.Transparent;
-            GCurve.CurveStroke = Brushes.Black;
+            GCurve.CurveStroke = Brushes.Blue;
             GCurve.CurveWidth = 2;
             
         }

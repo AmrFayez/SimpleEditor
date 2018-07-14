@@ -46,7 +46,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             Pen.Width = Width;
             g.DrawEllipse(Pen, rec);
             g.FillEllipse(Fill, rec);
-            GeometryEngine.DrawPoint(g, Center, CenterPointFill, CenterPointStroke);
+            Editor2D.DrawPoint(g, Center, CenterPointFill, CenterPointStroke);
             ResetPen();
             DrawIntersectedPoints(g);
         }

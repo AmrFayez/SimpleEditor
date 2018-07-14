@@ -48,25 +48,8 @@
     <Compile Include="Common\NumericExtensions.cs" />
     <Compile Include="Common\PointExtension.cs" />
     <Compile Include="Common\Polynomial.cs" />
-    <Compile Include="controls\EditorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="controls\EditorControl.Designer.cs">
-      <DependentUpon>EditorControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="controls\GCircle.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="controls\GCircle.Designer.cs">
-      <DependentUpon>GCircle.cs</DependentUpon>
-    </Compile>
-    <Compile Include="controls\GLine.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="controls\GLine.Designer.cs">
-      <DependentUpon>GLine.cs</DependentUpon>
-    </Compile>
     <Compile Include="Geometry2D\DrawCommands.cs" />
+    <Compile Include="Geometry2D\Editor2D.cs" />
     <Compile Include="Geometry2D\Shapes\GCircle.cs" />
     <Compile Include="Geometry2D\Shapes\GArc.cs" />
     <Compile Include="Geometry2D\Shapes\GCurve.cs" />
@@ -88,9 +71,6 @@
     <Compile Include="SimpleEditorW.Designer.cs">
       <DependentUpon>SimpleEditorW.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="controls\EditorControl.resx">
-      <DependentUpon>EditorControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -116,7 +96,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="controls\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="icons\001.Line-512.png" />
     <Content Include="icons\developer-solid-2-35-512.png" />

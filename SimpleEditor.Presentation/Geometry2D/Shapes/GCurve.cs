@@ -39,8 +39,8 @@ namespace SimpleEditor.Presentation.Geometry2D
         {
             var result = new List<GCurve>();
 
-            result.Add(new GCurve(Start, Polynomial.MidPoint(this), Center));
-            result.Add(new GCurve(Center, Polynomial.MidPoint(this), End));
+            result.Add(new GCurve(Start, this.MidPoint(Polynomial.Position.Start), Center));
+            result.Add(new GCurve(Center, this.MidPoint(Polynomial.Position.Center), End));
             return result;
         }
 
