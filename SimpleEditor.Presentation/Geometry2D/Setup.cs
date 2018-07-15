@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimpleEditor.Presentation.Geometry2D.Shapes;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -62,9 +63,14 @@ namespace SimpleEditor.Presentation.Geometry2D
             GCurve.CurveFill = Brushes.Transparent;
             GCurve.CurveStroke = Brushes.Blue;
             GCurve.CurveWidth = 2;
-            
+
+            //Parabola Configuration
+            GParabola.ParabolaFill = Brushes.Transparent;
+            GParabola.ParabolaStroke = Brushes.Blue;
+            GParabola.ParabolaWidth = 2;
+
         }
 
-       
+
     }
 }

@@ -18,6 +18,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             get;
             set;
         }
+        public Tree<List<GShape>> Collection { get; set; }
         private List<GShape> ActiveSet { get; set; }
         #endregion
         #region Constructors

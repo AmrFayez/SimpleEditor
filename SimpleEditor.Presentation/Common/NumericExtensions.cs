@@ -27,5 +27,7 @@ namespace SimpleEditor.Presentation.Common
         {
             return new Polynomial(gCurve).MidPoint(position);
         }
+
+       
     }
 }

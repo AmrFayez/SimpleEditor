@@ -1,5 +1,7 @@
-﻿using SimpleEditor.Presentation.Common;
+﻿using MathNet.Numerics.LinearAlgebra.Double;
+using SimpleEditor.Presentation.Common;
 using SimpleEditor.Presentation.Geometry2D;
+using SimpleEditor.Presentation.Geometry2D.Shapes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,26 +20,30 @@ namespace SimpleEditor.Presentation
         #region  Drawing Properties
 
         private Editor2D editor;
-        
+
         #endregion
 
         #region Constructor
         public SimpleEditorW()
         {
             InitializeComponent();
+
+
             KeyPreview = true;
-           
-           editor = new Editor2D(editorWindow);
+            var g = editorWindow.CreateGraphics();
+            editor = new Editor2D(editorWindow);
             tabControl1.SelectTab(1);
+
+
         }
         #endregion
 
         #region Control Events
-        
+
 
         #endregion
 
-       
+
         #region Menue Buttons Events
         private void btn_new_Click(object sender, EventArgs e)
         {
@@ -58,7 +64,7 @@ namespace SimpleEditor.Presentation
         }
         private void btn_Curve_Click(object sender, EventArgs e)
         {
-            editor.ActiveCommand = DrawCommands.Curve;
+            editor.ActiveCommand = DrawCommands.Parabola;
         }
         private void btn_PolyLine_Click(object sender, EventArgs e)
         {
@@ -68,9 +74,11 @@ namespace SimpleEditor.Presentation
         }
         private void btn_Remove_Click(object sender, EventArgs e)
         {
-            //   TestCurveCurve();
+            // TestCurveCurve();
+           // TestMidPointFunction();
+            //curve();
             editor.ActiveCommand = DrawCommands.Noun;
-            
+
         }
 
         private void btn_Clear_Click(object sender, EventArgs e)
@@ -80,7 +88,7 @@ namespace SimpleEditor.Presentation
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-           editor.ProcessCmdKey(ref msg, keyData);
+            editor.ProcessCmdKey(ref msg, keyData);
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -103,15 +111,33 @@ namespace SimpleEditor.Presentation
         //    GRectangle rec = new GRectangle(cp1, cp2);
         //    rec.Draw(g);
         //}
-        //public void TestMidPointFunction()
-        //{
-        //    var p1 = new PointF(100, 100);
-        //    var p2 = new Point(200, 60);
-        //    var p3 = p1.Mid(p2);
-        //    GeometryEngine.DrawPoint(g,p1);
-        //    GeometryEngine.DrawPoint(g, p2);
-        //    GeometryEngine.DrawPoint(g, p3);
-        //}
+        public void TestMidPointFunction()
+        {
+            var p1 = new PointF(100, 100);
+            var p2 = new Point(200, 100);
+            var p3 = new PointF(150, 50);
+            var mid = p1.Mid(p3);
+            var mid2 = p3.Mid(p2);
+            
+            var g = editorWindow.CreateGraphics();
+            GCurve c = new GCurve(p1, p3, p2);
+            
+            c.Draw(g);
+         
+           // Polynomial polynomial = new Polynomial(new List<PointF>() { p1, p2, p3 });
+           //var p= polynomial.FromX(mid.X);
+
+           // var gcurve = new GCurve(p1, p, p3);
+           // gcurve.Draw(g);
+
+           // var pp = polynomial.FromX(mid2.X);
+           // Editor2D.DrawPoint(g, p);
+           // Editor2D.DrawPoint(g, pp);
+           // Editor2D.DrawPoint(g, p1);
+           // Editor2D.DrawPoint(g, p2);
+           // Editor2D.DrawPoint(g, p3);
+         
+        }
         //public void TestCurveCurve()
         //{
         //    var p1 = new PointF(100, 100);
@@ -143,20 +169,25 @@ namespace SimpleEditor.Presentation
         //    gc.Draw(g);
         //    c2.Draw(g);
         //}
-        //public void curve()
-        //{
-        //    var p1 = new PointF(100, 100);
-        //    var p2 = new Point(200, 100);
-        //    var p3 = new PointF(140, 150);
-        //    var p = new Pen(Brushes.Red, 3);
-        //    GCurve gc = new GCurve(p1, p3, p2);
-        //    Polynomial n = new Polynomial(gc);
-        //    List<GCurve> curves=new List<GCurve>();
-        //   var s1= gc.Divide();
-        //    s1.ForEach( e=> curves.AddRange(e.Divide()));
-        //    gc.Draw(g);
-        //    curves.ForEach(d => d.Draw(g));
-        //}
+        public void curve()
+        {
+            
+
+            var g = editorWindow.CreateGraphics();
+            var p1 = new PointF(100, 100);
+            var p2 = new Point(200, 100);
+            var p3 = new PointF(150, 150);
+            GParabola gr = new GParabola( p1 ,p2 ,p3 );
+            gr.Draw(g);
+           // var p = new Pen(Brushes.Red, 3);
+            GCurve gc = new GCurve(p1, p3, p2);
+           // Polynomial n = new Polynomial(gc);
+           // List<GCurve> curves = new List<GCurve>();
+           // var s1 = gc.Divide();
+           // s1.ForEach(e => curves.AddRange(e.Divide()));
+           gc.Draw(g);
+           // curves.ForEach(d => d.Draw(g));
+        }
         #endregion
 
     }

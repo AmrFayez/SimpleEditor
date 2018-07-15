@@ -1,9 +1,10 @@
 ﻿using SimpleEditor.Presentation.Common;
+using SimpleEditor.Presentation.Geometry2D.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-
+using static System.Math;
 namespace SimpleEditor.Presentation.Geometry2D
 {
     public class Intersection
@@ -279,10 +280,10 @@ namespace SimpleEditor.Presentation.Geometry2D
         /// http://processingjs.nihongoresources.com/intersections/
         public static IntersectionResult CurveCurve(GCurve c1, GCurve c2)
         {
-            IntersectionResult result =new IntersectionResult();
+            IntersectionResult result = new IntersectionResult();
             var coll = c1.Collider.Collide(c2.Collider);
             if (c1.Collider.Area >= GCurve.minCurveSegment &&
-                c1.Collider.Area >= GCurve.minCurveSegment && c1.Collider.Collide(c2.Collider) &&coll)
+                c1.Collider.Area >= GCurve.minCurveSegment && c1.Collider.Collide(c2.Collider) && coll)
             {
                 var set1 = c1.Divide();
                 var set2 = c2.Divide();
@@ -290,7 +291,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                 {
                     foreach (var s2 in set2)
                     {
-                      result.IntersectionPoints.AddRange( CurveCurve(s1, s2).IntersectionPoints);
+                        result.IntersectionPoints.AddRange(CurveCurve(s1, s2).IntersectionPoints);
                     }
 
                 }
@@ -332,7 +333,174 @@ namespace SimpleEditor.Presentation.Geometry2D
             return result;
         }
         #endregion
+
         #endregion
+
+        #region Parabola Intersections
+        public static IntersectionResult ParabolaLine(GParabola p, GLine l)
+        {
+            IntersectionResult result = new IntersectionResult();
+            var lineeqn = l.GetLineEqn();
+            var peqn = p.Polynomial;
+            var a = peqn.A;
+            var b = peqn.B - lineeqn[0];
+            var c = peqn.C - lineeqn[1];
+            var roots = Polynomial.GetRoots(a, b, c);
+            if (roots == null)
+            {
+                return result;
+            }
+            foreach (var root in roots)
+            {
+                if (root < l.EndPoint.X && root > l.StartPoint.X)
+                {
+                    var y = root * lineeqn[0] + lineeqn[1];
+                    var point = new PointF(root, y);
+                    if (PointLine(l, point)) ;
+                    {
+                        result.IntersectionPoints.Add(point);
+                    }
+
+                }
+
+            }
+            return result;
+
+        }
+
+        public static IntersectionResult ParabolaRectangle(GCurve c, GRectangle r)
+        {
+            IntersectionResult result = new IntersectionResult();
+            foreach (var line in r.Lines)
+            {
+                var temp = CurveLine(c, line);
+                if (temp.IntersectionPoints.Count != 0)
+
+                {
+                    result.IntersectionPoints.AddRange(temp.IntersectionPoints);
+                }
+            }
+            return result;
+        }
+        public static IntersectionResult ParaoblaPolyLine(GCurve c, GPolyLine pl)
+        {
+            IntersectionResult result = new IntersectionResult();
+            foreach (var line in pl.Lines)
+            {
+                var temp = CurveLine(c, line);
+                if (temp.IntersectionPoints.Count != 0)
+
+                {
+                    result.IntersectionPoints.AddRange(temp.IntersectionPoints);
+                }
+            }
+            return result;
+        }
+        public static IntersectionResult ParabolaParabola(GParabola p1, GParabola p2)
+        {
+            IntersectionResult result = new IntersectionResult();
+            var poly1 = p1.Polynomial;
+            var poly2 = p2.Polynomial;
+            var a = poly1.A - poly2.A;
+            var b = poly1.B - poly2.B;
+            var c = poly1.C - poly2.C;
+            var roots = Polynomial.GetRoots(a, b, c);
+            var s1 = p1.Points.OrderBy(e => e.X).ToList();
+            var s2 = p2.Points.OrderBy(d => d.X).ToList();
+            var xMin = Math.Max(s1[0].X, s2[0].X);
+            var xMax = Math.Min(s1[2].X, s2[2].X);
+            if (roots == null)
+            {
+                return result;
+            }
+            foreach (var root in roots)
+            {
+                if (xMin <= root && root <= xMax)
+                {
+                    var intersectPoint1 = poly1.FromX(root);
+                    result.IntersectionPoints.Add(intersectPoint1);
+
+                }
+
+            }
+            return result;
+
+        }
+        public static IntersectionResult ParabolaCircle(GParabola parabola, GCircle circle)
+        {
+            
+
+            IntersectionResult result = new IntersectionResult();
+           // https://en.wikipedia.org/wiki/Quartic_function#Nature_of_the_roots
+            var h = circle.Center.X;
+            var k = circle.Center.Y;
+            var r = circle.Radius;
+            var poly = parabola.Polynomial;
+            var a = poly.A * poly.A;
+            var b = 2 * poly.A * poly.B;
+            var c = (2 * poly.A * poly.C) - (2 * poly.A * k) + (b * b) + 1;
+            var d = (2 * b * c) - (2 * b * k) - (2 * h);
+            var e = (c * c - 2 * c * k + h * h + k * k - r * r);
+            var p = (8 * a * c - 3 * b * b) / (8 * a * a);
+            var q = (b * b * b - 4 * a * b * c + 8 * a * a * d) / (8 * Pow(a, 3));
+            var delta_0 = c * c - 3 * b * d + 12 * a * e;
+            var delta_1 = 2 * c * c * c - 9 * b * c * d + 27 * b * b * e + 27 * a * d * d - 72 * a * c * e;
+            
+            var delta = 256 * Pow(a, 3) * Pow(e, 3) - 192 * (a * a * b * d * e * e)
+                - 128 * (a * a * c * c * e * e) + 144 * (a * a * c * d * d * e)
+                - 27 * (a * a * Pow(d, 4)) + 144 * (a * b * b * c * e * e)
+                - 6 * (a * b * b * d * d * e) - 80 * (a * b * c*c *d*e)
+                + 18 * (a * b * c * Pow(d, 3)) + 16 * (a * Pow(c, 4) * e)
+                - 4 * (a * Pow(c, 3) * d * d) - 27 * (Pow(b, 4) * e * e) +
+                18 * (Pow(b, 3) * c * d * e) - 4 * (Pow(b, 3) * Pow(d, 3))
+                - 4 * (b * b * Pow(c, 3) * e) + (b * b * c * c * d * d);
+
+            var delta_diff = -27 * delta;
+
+            double Q, S;
+            if (delta>0)
+            {
+                var phy = Math.Acos(delta_1 /
+                    (2 * Sqrt(Pow(delta_0, 3))
+                    ));
+                S = .5 * Sqrt(-(2 / 3) * p + (2 / 3 * a) * Sqrt(delta_0) * Cos(phy / 3));
+            }
+
+            else
+            {
+                Q = Pow(
+              (delta_1 + Sqrt(delta_diff)) / 2
+              , 1 / 3);
+                S = .5 * Sqrt(
+                -(2 / 3) * p + (1 / ((3 * a)) * (Q + delta_0 / Q))
+                );
+
+            }           
+           
+            if (delta != 0 && delta == 0)
+            {
+
+            }
+            float t1, t2, t3, t4;
+            //check for roots
+            var d1 = -4 * S * S - 2 * p + q / S;
+            if (d1 <= Setup.Tolerance)
+                {
+                    t1 = (float)(-b / 4 * a - S + .5 * Sqrt(d1));
+                    t2 = (float)(-b / 4 * a - S - .5 * Sqrt(d1));
+                }
+            var d2 = -4 * S * S - 2 * p - q / S;
+            if (d2 <= Setup.Tolerance)
+            {
+                t3 = (float)(-b / 4 * a - S + .5 * Sqrt(d2));
+                t4 = (float)(-b / 4 * a - S - .5 * Sqrt(d2));
+            }
+
+
+            return result;
+        }
+        #endregion
+
         public static void Intersect(GShape s1, GShape s2)
         {
 

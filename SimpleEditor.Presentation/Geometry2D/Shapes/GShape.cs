@@ -58,7 +58,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             Pen.Width = 2;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
            
         }

@@ -32,10 +32,10 @@ namespace SimpleEditor.Presentation.Geometry2D
             var height = FirstCorner.Y - SecondCorner.Y;
             var p1 = new PointF(FirstCorner.X, FirstCorner.Y - height);
             var p2 = new PointF(FirstCorner.X - width, FirstCorner.Y);
-            Lines.Add(new GLine(FirstCorner, p1));
-            Lines.Add(new GLine(FirstCorner, p2));
-            Lines.Add(new GLine(SecondCorner, p1));
-            Lines.Add(new GLine(SecondCorner, p2));
+            Lines.Add(new GLine(FirstCorner, p1) { DrawPoints=false});
+            Lines.Add(new GLine(FirstCorner, p2) { DrawPoints = false });
+            Lines.Add(new GLine(SecondCorner, p1) { DrawPoints = false });
+            Lines.Add(new GLine(SecondCorner, p2) { DrawPoints = false });
             foreach (var line in Lines)
             {
                 line.Draw(g);

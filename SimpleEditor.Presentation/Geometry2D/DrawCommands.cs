@@ -12,6 +12,7 @@ namespace SimpleEditor.Presentation.Geometry2D
         Arc,
         Curve,
         Clear,
+        Parabola
         
     }
 }

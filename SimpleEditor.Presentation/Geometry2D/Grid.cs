@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -21,19 +22,19 @@ namespace SimpleEditor.Presentation.Geometry2D
         public float MajorLineWidth { get; set; }
         public PointF StartPoint { get; set; }
         public Image GridBitMap { get; set; }
-
+      
         public Grid(int width, int height)
         {
             Lines = new List<GLine>();
-            Width = width + 30;
-            Height = height + 30;
+            Width = width;
+            Height = height;
             HorizontalSpacing = 20;
             VerticalSpacing = 20;
-            MajorLineSpacing = 90;
+            MajorLineSpacing = 5;
             Stroke = Brushes.Black;
 
             MajorLineStroke = Brushes.Red;
-            MajorLineWidth = 1f;
+            MajorLineWidth = 1.5f;
             LineWidth = .2f;
         }
 
@@ -42,11 +43,11 @@ namespace SimpleEditor.Presentation.Geometry2D
             Lines.Clear();
             //draw Horizontal grid
             float counter = 0;
-
+            float majorSpacingCounter=5;
             while (counter * VerticalSpacing < Height)
             {
 
-                if (counter*VerticalSpacing%MajorLineSpacing  == 0 &&counter>2)
+                if (majorSpacingCounter == MajorLineSpacing)
                 {
                     Lines.Add(
                         new GLine(
@@ -58,6 +59,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                             Stroke = MajorLineStroke,
                             DrawPoints = false
                         });
+                    majorSpacingCounter = 0;
                 }
                 else
                 {
@@ -66,7 +68,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                     Lines.Add(
                         new GLine(
                             new PointF(StartPoint.X, counter * VerticalSpacing),
-                            new PointF(StartPoint.X+Width, counter * VerticalSpacing))
+                            new PointF(StartPoint.X + Width, counter * VerticalSpacing))
                         {
                             Stroke = Stroke,
                             Width = LineWidth,
@@ -74,24 +76,27 @@ namespace SimpleEditor.Presentation.Geometry2D
                         });
                 }
                 counter++;
+                majorSpacingCounter++;
             }
             //draw Vertical grid
             counter = 0;
+            majorSpacingCounter = 0;
             while (counter * HorizontalSpacing < Width)
             {
 
-                if (counter * HorizontalSpacing % MajorLineSpacing == 0&&counter > 2)
+                if (majorSpacingCounter==MajorLineSpacing)
                 {
                     Lines.Add(
                         new GLine(
                         new PointF(counter * HorizontalSpacing, StartPoint.Y),
-                        new PointF(counter * HorizontalSpacing, StartPoint.Y+Height))
+                        new PointF(counter * HorizontalSpacing, StartPoint.Y + Height))
                         {
                             //change the width of major line
                             Width = MajorLineWidth,
                             Stroke = MajorLineStroke,
                             DrawPoints = false
                         });
+                    majorSpacingCounter = 0;
                 }
                 else
                 {
@@ -100,7 +105,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                     Lines.Add(
                         new GLine(
                             new PointF(counter * HorizontalSpacing, StartPoint.Y),
-                            new PointF(counter * HorizontalSpacing, StartPoint.Y+Height))
+                            new PointF(counter * HorizontalSpacing, StartPoint.Y + Height))
                         {
                             //change the width of major line
                             Width = LineWidth,
@@ -110,27 +115,26 @@ namespace SimpleEditor.Presentation.Geometry2D
 
                 }
                 counter++;
+                majorSpacingCounter++;
             }
 
         }
         public void Scale(float ratio)
         {
-            
-            if (ratio <= 1 && ratio > 0)
-            {
-                ratio = -(1 - ratio);
-            }
-            Width = Width + Width * ratio;
-            Height = Height + Height * ratio;
-            HorizontalSpacing = HorizontalSpacing + HorizontalSpacing * ratio * 2;
-            VerticalSpacing = VerticalSpacing + VerticalSpacing * ratio * 2;
-            LineWidth = LineWidth + LineWidth * ratio / 2;
-            MajorLineWidth = MajorLineWidth + MajorLineWidth * ratio / 2;
+             //  ratio = 1 - ratio;
+               // Width = Width + Width * ratio;
+               // Height = Height + Height * ratio;
+                HorizontalSpacing = HorizontalSpacing + ratio*20;
+                VerticalSpacing = VerticalSpacing +  ratio*20;
+            //  MajorLineSpacing = MajorLineSpacing + MajorLineSpacing ;
+            //   LineWidth = LineWidth + LineWidth * ratio;
+            Debug.WriteLine($"vSpacing:{ VerticalSpacing},HzSpacing:{HorizontalSpacing }");
+
         }
 
         internal void Translate(int offsetX, int offsetY)
         {
-            StartPoint = new PointF(StartPoint.X -offsetX, StartPoint.Y - offsetY);
+            StartPoint = new PointF(StartPoint.X - offsetX, StartPoint.Y - offsetY);
         }
     }
 }

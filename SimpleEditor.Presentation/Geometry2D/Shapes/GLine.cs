@@ -25,13 +25,28 @@ namespace SimpleEditor.Presentation.Geometry2D
         {
             StartPoint = startPoint;
             EndPoint = endPoint;
-            Stroke = LineStroke;
+            Stroke =(Brush)LineStroke.Clone();
             Width = LineWidth;
             DrawPoints = true;
         }
         #endregion
 
         #region Methods
+
+        public float[] GetLineEqn()
+        {
+            var m = ( EndPoint.Y -  StartPoint.Y) / ( EndPoint.X -  StartPoint.X);
+            var d =  StartPoint.Y - m *  StartPoint.X;
+            return new float[] { m, d };
+        }
+
+        public static float[] GetLineEqn( GLine l)
+        {
+            var m = (l.EndPoint.Y - l.StartPoint.Y) / (l.EndPoint.X - l.StartPoint.X);
+            var d = l.StartPoint.Y - m * l.StartPoint.X;
+            return new float[] { m, d };
+        }
+       
         public override void IntersectWith(GShape gShape)
         {
             if (gShape is GCircle)
@@ -106,7 +121,10 @@ namespace SimpleEditor.Presentation.Geometry2D
             //PointStroke.Dispose();
         }
         #endregion
-
+        public override void Dispose()
+        {
+            Stroke.Dispose();
+        }
 
     }
 }

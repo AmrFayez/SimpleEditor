@@ -32,8 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.5.1\lib\net461\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +53,7 @@
     <Compile Include="Common\NumericExtensions.cs" />
     <Compile Include="Common\PointExtension.cs" />
     <Compile Include="Common\Polynomial.cs" />
+    <Compile Include="DataStructure\Tree.cs" />
     <Compile Include="Geometry2D\DrawCommands.cs" />
     <Compile Include="Geometry2D\Editor2D.cs" />
     <Compile Include="Geometry2D\Grid.cs" />
@@ -56,6 +62,7 @@
     <Compile Include="Geometry2D\Shapes\GCurve.cs" />
     <Compile Include="Geometry2D\GeometryEngine.cs" />
     <Compile Include="Geometry2D\Shapes\GLine.cs" />
+    <Compile Include="Geometry2D\Shapes\GParabola.cs" />
     <Compile Include="Geometry2D\Shapes\GPolyLine.cs" />
     <Compile Include="Geometry2D\Shapes\GRectangle.cs" />
     <Compile Include="Geometry2D\Shapes\GShape.cs" />
@@ -84,6 +91,7 @@
     <EmbeddedResource Include="SimpleEditorW.resx">
       <DependentUpon>SimpleEditorW.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
