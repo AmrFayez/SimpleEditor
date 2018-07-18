@@ -10,7 +10,7 @@ namespace SimpleEditor.Presentation.Geometry2D
 {
     public class Setup
     {
-       
+
 
         // general Point Configuration
         public static float PenWidth { get; set; }
@@ -69,6 +69,9 @@ namespace SimpleEditor.Presentation.Geometry2D
             GParabola.ParabolaStroke = Brushes.Blue;
             GParabola.ParabolaWidth = 2;
 
+            StatusBar.DefaultColor = Color.Black;
+            StatusBar.ErrorColor = Color.Red;
+            StatusBar.WarningColor = Color.Yellow;
         }
 
 

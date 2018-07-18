@@ -22,14 +22,15 @@ namespace SimpleEditor.Presentation.Geometry2D
         public float MajorLineWidth { get; set; }
         public PointF StartPoint { get; set; }
         public Image GridBitMap { get; set; }
-      
+        private float InitialHorizontalSpacing;
+        private float InitialVerticalSpacing;
         public Grid(int width, int height)
         {
             Lines = new List<GLine>();
             Width = width;
             Height = height;
-            HorizontalSpacing = 20;
-            VerticalSpacing = 20;
+            InitialHorizontalSpacing = HorizontalSpacing = 20;
+            InitialVerticalSpacing = VerticalSpacing = 20;
             MajorLineSpacing = 5;
             Stroke = Brushes.Black;
 
@@ -43,7 +44,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             Lines.Clear();
             //draw Horizontal grid
             float counter = 0;
-            float majorSpacingCounter=5;
+            float majorSpacingCounter = MajorLineSpacing;
             while (counter * VerticalSpacing < Height)
             {
 
@@ -84,7 +85,7 @@ namespace SimpleEditor.Presentation.Geometry2D
             while (counter * HorizontalSpacing < Width)
             {
 
-                if (majorSpacingCounter==MajorLineSpacing)
+                if (majorSpacingCounter == MajorLineSpacing)
                 {
                     Lines.Add(
                         new GLine(
@@ -121,11 +122,11 @@ namespace SimpleEditor.Presentation.Geometry2D
         }
         public void Scale(float ratio)
         {
-             //  ratio = 1 - ratio;
-               // Width = Width + Width * ratio;
-               // Height = Height + Height * ratio;
-                HorizontalSpacing = HorizontalSpacing + ratio*20;
-                VerticalSpacing = VerticalSpacing +  ratio*20;
+            //  ratio = 1 - ratio;
+            // Width = Width + Width * ratio;
+            // Height = Height + Height * ratio;
+            HorizontalSpacing = HorizontalSpacing + ratio * InitialHorizontalSpacing;
+            VerticalSpacing = VerticalSpacing + ratio * InitialVerticalSpacing;
             //  MajorLineSpacing = MajorLineSpacing + MajorLineSpacing ;
             //   LineWidth = LineWidth + LineWidth * ratio;
             Debug.WriteLine($"vSpacing:{ VerticalSpacing},HzSpacing:{HorizontalSpacing }");

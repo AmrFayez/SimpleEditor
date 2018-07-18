@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,6 +69,19 @@ namespace SimpleEditor.Presentation.Common
 
           return ((float) Math.Sqrt((p.X * p.X) + (p.Y * p.Y)));
 
+        }
+
+        public static PointF ScaleTransform(this PointF point, float xValue,float yValue)
+        {
+            return new PointF(point.X * xValue, point.Y * yValue);
+        }
+        public static PointF TranslateTransform(this PointF point, float xValue, float yValue)
+        {
+            return new PointF(point.X +xValue, point.Y + yValue);
+        }
+        public static PointF Transform(this PointF point,Matrix m)
+        {
+            return new PointF(point.X - m.OffsetX, point.Y - m.OffsetY);
         }
     }
 }

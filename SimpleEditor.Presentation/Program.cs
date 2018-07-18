@@ -16,7 +16,7 @@ namespace SimpleEditor.Presentation
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SimpleEditorW());
+            Application.Run(new MainWindow());
         }
     }
 }

@@ -19,14 +19,51 @@ namespace SimpleEditor.Presentation.Geometry2D
         public PictureBox EditorWindow { get; set; }
         public GeometryEngine GeometryEngine { get; set; }
         public Grid Grid { get; set; }
+        public StatusBar StatusBar { get; set; }
         public DrawCommands ActiveCommand { get; set; }
+        #endregion
+
+
+
+        #region Zoom and Pan Properties
+
+        Point mouseDown;
+        int startx = 0;                         // offset of image when mouse was pressed
+        int starty = 0;
+        int offsetX = 0;                         // current offset of image
+        int offsetY = 0;
+
+        private int InitialWindowWidth;
+        private int initialWindowHeight;
+        bool mousepressed = false;  // true as long as left mousebutton is pressed
+        public float Zoom { get; set; }
+        public float ZoomRatio { get; set; }
+        public float MinZoom { get; set; }
+        public float MaxZoom { get; set; }
+        #endregion
+
+        #region  Drawing Properties
+
+        PointF p1;
+        PointF p2;
+        private int clickCount;
+        public Graphics g;
+        private GShape tempShape;
+        private GPolyLine tempPolyLine;
+
         #endregion
 
         #region Constructors
         public Editor2D(PictureBox editorWindow)
         {
             EditorWindow = editorWindow;
+            StatusBar = new StatusBar();
             GeometryEngine = new GeometryEngine();
+            //default Zoom vales
+            ZoomRatio = .1f;
+            Zoom = 1;
+            InitialWindowWidth = EditorWindow.Width;
+            initialWindowHeight = EditorWindow.Height;
             //grid
             Grid = new Grid(editorWindow.Width, editorWindow.Height);
             Grid.Generate();
@@ -38,83 +75,86 @@ namespace SimpleEditor.Presentation.Geometry2D
             EditorWindow.KeyPress += EditorWindow_KeyPress;
             EditorWindow.MouseDoubleClick += EditorWindow_MouseDoubleClick;
             EditorWindow.MouseWheel += EditorWindow_MouseWheel;
+            EditorWindow.SizeChanged += EditorWindow_SizeChanged;
 
         }
-        #endregion
 
-        #region Zoom and Pan Properties
-
-        Point mouseDown;
-        int startx = 0;                         // offset of image when mouse was pressed
-        int starty = 0;
-        int offsetX = 0;                         // current offset of image
-        int offsetY = 0;
-
-        bool mousepressed = false;  // true as long as left mousebutton is pressed
-        float zoom = 1;
-        public float MinZoom { get; set; }
-        public float MaxZoom { get; set; }
-        #endregion
-
-        #region  Drawing Properties
-
-        PointF p1;
-        PointF p2;
-        PointF delta_Y;
-        private int clickCount;
-        public Graphics g;
-        private GShape tempShape;
-        private GPolyLine tempPolyLine;
 
         #endregion
 
         #region Editor Window Events Wiring
+
+        private void EditorWindow_SizeChanged(object sender, EventArgs e)
+        {
+            var pictureBox = sender as PictureBox;
+            Grid.Width = pictureBox.Width;
+            Grid.Height = pictureBox.Height;
+            Grid.Generate();
+          
+            EditorWindow.Invalidate();
+          
+        }
         private void EditorWindow_MouseDown(object sender, MouseEventArgs e)
         {
+            MouseEventArgs mouse = e as MouseEventArgs;
+
 
             if (ActiveCommand != DrawCommands.Noun)
             {
                 clickCount++;
-                p1 = p2 = new PointF(e.X, e.Y);
-            }
-            else
-            {
-                MouseEventArgs mouse = e as MouseEventArgs;
 
-                if (mouse.Button == MouseButtons.Left)
+                var offsetPoint = new PointF(offsetX, offsetY).Scale(Zoom);
+                p1 = p2 = (new PointF(e.X, e.Y).Sub(offsetPoint)).Scale(1 / Zoom);
+
+                Debug.WriteLine($"x:{p1.X},y:{p1.Y},zoom:{Zoom}");
+            }
+
+            if (mouse.Button == MouseButtons.Left)
+            {
+                if (!mousepressed)
                 {
-                    if (!mousepressed)
-                    {
-                        mousepressed = true;
-                        mouseDown = mouse.Location;
-                        startx = offsetX;
-                        starty = offsetY;
-                    }
+                    mousepressed = true;
+                    mouseDown = mouse.Location;
+                    startx = offsetX;
+                    starty = offsetY;
                 }
             }
+
 
         }
         private void EditorWindow_MouseMove(object sender, MouseEventArgs e)
         {
-
+            StatusBar.Message($"X: {e.X} , Y: {e.Y}");
             if (ActiveCommand != DrawCommands.Noun && clickCount >= 1)
             {
-                delta_Y = p2.Sub(e.Location);
-                p2 = new PointF(e.X, e.Y);
+                //delta_Y = p2.Sub(e.Location);
+
+                var offsetPoint = new PointF(offsetX, offsetY).Scale(Zoom);
+                p2 = (new PointF(e.X, e.Y).Sub(offsetPoint)).Scale(1 / Zoom);
+
 
                 switch (ActiveCommand)
                 {
                     case DrawCommands.Line:
+                        #region Line
                         tempShape = new GLine(p1, p2);
+                        #endregion
+
                         break;
                     case DrawCommands.Circle:
-                        tempShape = new GCircle(p1.Sub(new PointF(offsetX, offsetY)), (float)p1.Distance(p2));
+                        #region Circle
+                        tempShape = new GCircle(p1, p1.Distance(p2));
+                        Debug.WriteLine($"x:{p1.X},Y:{p1.Y},R:{p1.Distance(p2)}");
+                        Debug.WriteLine($"offsetX:{offsetX},OffsetY:{ offsetY}");
+                        #endregion  
                         break;
                     case DrawCommands.Rectangle:
-
+                        #region Rectangle
                         tempShape = new GRectangle(p1, p2);
+                        #endregion
                         break;
                     case DrawCommands.PolyLine:
+                        #region PolyLine
                         tempShape = tempPolyLine;
                         if (clickCount == 1)
                         {
@@ -151,10 +191,11 @@ namespace SimpleEditor.Presentation.Geometry2D
 
 
                         }
-
+                        #endregion
                         break;
                     case DrawCommands.Curve:
 
+                        #region Curve
 
                         if (clickCount == 1)
                         {
@@ -171,9 +212,9 @@ namespace SimpleEditor.Presentation.Geometry2D
                             else
                             {
                                 var l = (GLine)tempShape;
-                                
+
                                 tempShape = new GCurve(l.StartPoint, p2, l.EndPoint);
-                              
+
                             }
 
 
@@ -185,8 +226,10 @@ namespace SimpleEditor.Presentation.Geometry2D
                             clickCount = 0;
                         }
 
+                        #endregion
                         break;
                     case DrawCommands.Parabola:
+                        #region Parabola
                         if (clickCount == 1)
                         {
                             tempShape = new GLine(p1, p2);
@@ -215,6 +258,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                             GeometryEngine.AddShape(tempShape);
                             clickCount = 0;
                         }
+                        #endregion
                         break;
                     case DrawCommands.Clear:
                         break;
@@ -237,11 +281,8 @@ namespace SimpleEditor.Presentation.Geometry2D
                     int deltaX = mousePosNow.X - mouseDown.X; // the distance the mouse has been moved since mouse was pressed
                     int deltaY = mousePosNow.Y - mouseDown.Y;
 
-                    offsetX = (int)(startx + (deltaX / zoom));  // calculate new offset of image based on the current zoom factor
-                    offsetY = (int)(starty + (deltaY / zoom));
-                    //   Grid.Translate(deltaY, deltaX);
-
-                    Grid.Generate();
+                    offsetX = (int)(startx + (deltaX / Zoom));  // calculate new offset of image based on the current zoom factor
+                    offsetY = (int)(starty + (deltaY / Zoom));
 
                     EditorWindow.Invalidate();
                 }
@@ -270,6 +311,7 @@ namespace SimpleEditor.Presentation.Geometry2D
                         GeometryEngine.AddShape(tempShape);
                         clickCount = 0;
                         tempShape = null;
+                        Debug.WriteLine("draw Circle");
                     }
                     break;
                 case DrawCommands.Rectangle:
@@ -320,13 +362,13 @@ namespace SimpleEditor.Presentation.Geometry2D
                     if (tempShape == null)
                     {
                         ActiveCommand = DrawCommands.Noun;
-                        
+
                     }
                     else
                     {
                         GeometryEngine.AddShape(tempShape);
                     }
-                    
+
                     tempShape = null;
                     tempPolyLine = null;
                     clickCount = 0;
@@ -363,41 +405,56 @@ namespace SimpleEditor.Presentation.Geometry2D
         {
             MaxZoom = 1.5f;
             MinZoom = .5f;
-            float oldzoom = zoom;
+            float oldzoom = Zoom;
 
             if (e.Delta > 0)
             {
-                zoom += 0.1f;
-               
-                if (zoom>MaxZoom)
+                Zoom += ZoomRatio;
+
+                if (Zoom > MaxZoom)
                 {
-                    zoom = MaxZoom;
+                    Zoom = MaxZoom;
                 }
                 else
                 {
-                    Grid.Scale(-.1f);
-                    
+                    Grid.Scale(-ZoomRatio);
+
                     Grid.Generate();
-                    Debug.WriteLine($"zooming in:{zoom}");
+                    Debug.WriteLine($"zooming in:{Zoom}");
+                    var size = EditorWindow.Size;
+                    EditorWindow.Size = new Size((int)(size.Width + InitialWindowWidth * ZoomRatio),
+                        (int)(size.Height + initialWindowHeight * ZoomRatio));
+
                 }
-                
-           
-                
+
+
+
             }
 
             else if (e.Delta < 0)
             {
-                zoom -= 0.1f;
-                if (zoom<=MinZoom)
+                Zoom -= ZoomRatio;
+                if (Zoom < MinZoom)
                 {
-                    zoom = MinZoom;
+                    Zoom = MinZoom;
                 }
                 else
                 {
-                    
-                    Grid.Scale(.1f);
+
+                    Grid.Scale(ZoomRatio);
                     Grid.Generate();
-                    Debug.WriteLine($"zooming out:{zoom}");
+
+                    var size = EditorWindow.Size;
+
+                    if (size.Width - InitialWindowWidth * ZoomRatio<InitialWindowWidth || 
+                        size.Height - initialWindowHeight * ZoomRatio<initialWindowHeight)
+                    {
+                        return;
+                    }
+                    EditorWindow.Size = new Size((int)(size.Width - InitialWindowWidth * ZoomRatio),
+                        (int)(size.Height - initialWindowHeight * ZoomRatio));
+                   
+                    Debug.WriteLine($"zooming out:{Zoom}");
                 }
             }
 
@@ -410,14 +467,15 @@ namespace SimpleEditor.Presentation.Geometry2D
             int oldimagex = (int)(x / oldzoom);  // Where in the IMAGE is it now
             int oldimagey = (int)(y / oldzoom);
 
-            int newimagex = (int)(x / zoom);     // Where in the IMAGE will it be when the new zoom i made
-            int newimagey = (int)(y / zoom);
+            int newimagex = (int)(x / Zoom);     // Where in the IMAGE will it be when the new zoom i made
+            int newimagey = (int)(y / Zoom);
 
             offsetX = newimagex - oldimagex + offsetX;  // Where to move image to keep focus on one point
             offsetY = newimagey - oldimagey + offsetY;
-            
-                EditorWindow.Invalidate();  // calls imageBox_Paint
-            
+
+
+            EditorWindow.Invalidate();  // calls imageBox_Paint
+
 
         }
 
@@ -425,7 +483,7 @@ namespace SimpleEditor.Presentation.Geometry2D
         {
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-           
+
             if (Grid.Lines.Count != 0)
             {
                 foreach (var line in Grid.Lines)
@@ -433,15 +491,18 @@ namespace SimpleEditor.Presentation.Geometry2D
                     line.Draw(e.Graphics);
                 }
             }
-            e.Graphics.ScaleTransform(zoom, zoom);
+
+
+            e.Graphics.ScaleTransform(Zoom, Zoom);
             e.Graphics.TranslateTransform(offsetX, offsetY);
-
-           
-
+            // e.Graphics.RotateTransform(150);
             if (tempShape != null)
             {
                 tempShape.Draw(e.Graphics);
             }
+           
+
+
 
             Paint(e.Graphics);
 
@@ -459,37 +520,37 @@ namespace SimpleEditor.Presentation.Geometry2D
                 {
 
                     case Keys.Right:
-                        offsetX -= (int)(EditorWindow.Width * 0.1F / zoom);
+                        offsetX -= (int)(EditorWindow.Width * 0.1F / Zoom);
                         EditorWindow.Invalidate();
                         break;
                     case Keys.Space:
                         offsetX = 0;
                         offsetY = 0;
-                        zoom = 1;
+                        Zoom = 1;
                         EditorWindow.Invalidate();
                         break;
                     case Keys.Left:
-                        offsetX += (int)(EditorWindow.Width * 0.1F / zoom);
+                        offsetX += (int)(EditorWindow.Width * 0.1F / Zoom);
                         EditorWindow.Invalidate();
                         break;
 
                     case Keys.Down:
-                        offsetY -= (int)(EditorWindow.Height * 0.1F / zoom);
+                        offsetY -= (int)(EditorWindow.Height * 0.1F / Zoom);
                         EditorWindow.Invalidate();
                         break;
 
                     case Keys.Up:
-                        offsetY += (int)(EditorWindow.Height * 0.1F / zoom);
+                        offsetY += (int)(EditorWindow.Height * 0.1F / Zoom);
                         EditorWindow.Invalidate();
                         break;
 
                     case Keys.PageDown:
-                        offsetY -= (int)(EditorWindow.Height * 0.90F / zoom);
+                        offsetY -= (int)(EditorWindow.Height * 0.90F / Zoom);
                         EditorWindow.Invalidate();
                         break;
 
                     case Keys.PageUp:
-                        offsetY += (int)(EditorWindow.Height * 0.90F / zoom);
+                        offsetY += (int)(EditorWindow.Height * 0.90F / Zoom);
                         EditorWindow.Invalidate();
                         break;
 

@@ -53,6 +53,13 @@
     <Compile Include="Common\NumericExtensions.cs" />
     <Compile Include="Common\PointExtension.cs" />
     <Compile Include="Common\Polynomial.cs" />
+    <Compile Include="Common\TextExtensions.cs" />
+    <Compile Include="controls\Editor2DControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="controls\Editor2DControl.Designer.cs">
+      <DependentUpon>Editor2DControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataStructure\Tree.cs" />
     <Compile Include="Geometry2D\DrawCommands.cs" />
     <Compile Include="Geometry2D\Editor2D.cs" />
@@ -71,13 +78,14 @@
     <Compile Include="Geometry2D\IntersectionType.cs" />
     <Compile Include="Geometry2D\RecCollider.cs" />
     <Compile Include="Geometry2D\Setup.cs" />
+    <Compile Include="Geometry2D\StatusBar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleEditorW.cs">
+    <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SimpleEditorW.Designer.cs">
-      <DependentUpon>SimpleEditorW.cs</DependentUpon>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -88,8 +96,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SimpleEditorW.resx">
-      <DependentUpon>SimpleEditorW.cs</DependentUpon>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -105,9 +113,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="icons\001.Line-512.png" />
     <Content Include="icons\developer-solid-2-35-512.png" />
