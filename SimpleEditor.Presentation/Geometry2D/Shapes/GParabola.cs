@@ -74,7 +74,16 @@ namespace SimpleEditor.Presentation.Geometry2D.Shapes
             var pen = (Pen)Pen.Clone();
             pen.Brush = Stroke;
             pen.Width = Width;
-            g.DrawPath(pen, path);
+            try
+            {
+                g.DrawPath(pen, path);
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e);
+            }
+           
             pen.Dispose();
         }
         public override void IntersectWith(GShape gShape)

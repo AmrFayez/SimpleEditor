@@ -336,9 +336,6 @@ namespace SimpleEditor.Presentation.Geometry2D
             }
             mousepressed = false;
             EditorWindow.Invalidate();
-
-
-
         }
         private void EditorWindow_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -483,7 +480,7 @@ namespace SimpleEditor.Presentation.Geometry2D
         {
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
+        
             if (Grid.Lines.Count != 0)
             {
                 foreach (var line in Grid.Lines)
@@ -491,8 +488,6 @@ namespace SimpleEditor.Presentation.Geometry2D
                     line.Draw(e.Graphics);
                 }
             }
-
-
             e.Graphics.ScaleTransform(Zoom, Zoom);
             e.Graphics.TranslateTransform(offsetX, offsetY);
             // e.Graphics.RotateTransform(150);
@@ -500,12 +495,8 @@ namespace SimpleEditor.Presentation.Geometry2D
             {
                 tempShape.Draw(e.Graphics);
             }
-           
-
-
-
+        
             Paint(e.Graphics);
-
 
         }
 
